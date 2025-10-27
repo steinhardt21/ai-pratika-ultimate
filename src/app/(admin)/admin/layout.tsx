@@ -6,7 +6,7 @@ export default function AdminLayout({children}: {children: React.ReactNode}) {
     return (
         <SidebarProvider>
           <NavigationSidebar items={adminConfig.sidebarNav} />
-          <main>
+          <main className="flex w-full flex-1 flex-col overflow-hidden">
             {children}
           </main>
         </SidebarProvider>

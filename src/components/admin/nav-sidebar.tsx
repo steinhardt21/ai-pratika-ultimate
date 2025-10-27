@@ -38,7 +38,7 @@ export function NavigationSidebar({ items }: NavigationSidebarProps) {
               item.href && (
 
                 <SidebarMenuItem key={index}>
-                  <SidebarMenuButton asChild tooltip={item.title} isActive={path === item.href}>
+                  <SidebarMenuButton disabled={item.disabled || false} asChild tooltip={item.title} isActive={path === item.href}>
                     <Link href={item.disabled ? "/" : item.href}>
                       <Icon className="mr-2 h-4 w-4" />
                       <span>{item.title}</span>

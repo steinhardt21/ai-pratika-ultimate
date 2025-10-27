@@ -1,7 +1,9 @@
+import { AdminShell } from "@/components/admin/shell";
+
 export default function AdminPage() {
     return (
-        <div>
+        <AdminShell>
             <h1>Admin Page</h1>
-        </div>
+        </AdminShell>
     )
 }

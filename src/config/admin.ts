@@ -11,18 +11,20 @@ export const adminConfig: AdminConfig = {
     },
     {
       title: "Contenuti",
-      href: "/admin/contenuti",
+      href: "/admin/content",
       icon: "post",
     },
     {
       title: "Taxonomy",
       href: "/admin/taxonomy",
       icon: "page",
+      disabled: true,
     },
     {
       title: "Utenti",
       href: "/admin/utenti",
       icon: "user",
+      disabled: true,
     },
   ],
 }

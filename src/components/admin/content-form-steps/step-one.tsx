@@ -121,7 +121,11 @@ export function StepOne({ contentType, setContentType, jsonData, setJsonData, on
         )}
 
         {jsonData && !parseError && validationErrors.length === 0 && contentType && (
-          <p className="text-sm text-green-600">✓ Valid {contentType} JSON</p>
+          <Alert variant="default">
+            <AlertDescription>
+              <p className="text-sm text-green-600">✓ Valid {contentType} JSON</p>
+            </AlertDescription>
+          </Alert>
         )}
 
 

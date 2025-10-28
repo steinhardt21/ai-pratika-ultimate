@@ -17,8 +17,7 @@ export default defineSchema({
     updatedAt: v.optional(v.number()), // Timestamp in milliseconds (Date.now())
   })
     .index("by_clerk_id", ["clerkId"])
-    .index("by_email", ["email"])
-    .index("by_creation_time", ["_creationTime"]),
+    .index("by_email", ["email"]),
 
   membership: defineTable({
     userId: v.id("users"),
@@ -26,24 +25,21 @@ export default defineSchema({
     updatedAt: v.optional(v.number()), // Timestamp in milliseconds (Date.now())
   })
     .index("by_user_id", ["userId"])
-    .index("by_role", ["role"])
-    .index("by_creation_time", ["_creationTime"]),
+    .index("by_role", ["role"]),
 
   profession: defineTable({
     name: v.optional(v.string()),
     description: v.optional(v.string()),
     updatedAt: v.optional(v.number()), // Timestamp in milliseconds (Date.now())
   })
-    .index("by_name", ["name"])
-    .index("by_creation_time", ["_creationTime"]),
+    .index("by_name", ["name"]),
 
   aiInstrument: defineTable({
     name: v.optional(v.string()),
     description: v.optional(v.string()),
     updatedAt: v.optional(v.number()), // Timestamp in milliseconds (Date.now())
   })
-    .index("by_name", ["name"])
-    .index("by_creation_time", ["_creationTime"]),
+    .index("by_name", ["name"]),
 
   savedArticle: defineTable({
     articleId: v.id("article"),
@@ -52,8 +48,7 @@ export default defineSchema({
   })
     .index("by_article_id", ["articleId"])
     .index("by_user_id", ["userId"])
-    .index("by_user_article", ["userId", "articleId"])
-    .index("by_creation_time", ["_creationTime"]),
+    .index("by_user_article", ["userId", "articleId"]),
 
   article: defineTable({
     title: v.optional(v.string()),
@@ -65,7 +60,6 @@ export default defineSchema({
     updatedAt: v.optional(v.number()), 
   })
     .index("by_type_status", ["type", "status"])
-    .index("by_creation_time", ["_creationTime"])
     .index("by_content_id", ["contentId"])
     .index("by_status", ["status"])
     .index("by_type", ["type"]),
@@ -82,7 +76,6 @@ export default defineSchema({
     updatedAt: v.optional(v.number()), 
   })
     .index("by_author_id", ["authorId"])
-    .index("by_creation_time", ["_creationTime"])
     .index("by_difficulty", ["difficulty"])
     .index("by_pay", ["pay"])
     .index("by_difficulty_pay", ["difficulty", "pay"]),
@@ -95,8 +88,7 @@ export default defineSchema({
     updatedAt: v.optional(v.number()), 
   })
     .index("by_workflow_id", ["workflowId"])
-    .index("by_resource_id", ["resourceId"])
-    .index("by_creation_time", ["_creationTime"]),
+    .index("by_resource_id", ["resourceId"]),
 
   news: defineTable({
     title: v.optional(v.string()),
@@ -105,8 +97,7 @@ export default defineSchema({
     authorId: v.id("users"),
     updatedAt: v.optional(v.number()), 
   })
-    .index("by_author_id", ["authorId"])
-    .index("by_creation_time", ["_creationTime"]),
+    .index("by_author_id", ["authorId"]),
 
   step: defineTable({
     order: v.number(),
@@ -118,8 +109,7 @@ export default defineSchema({
   })
     .index("by_workflow_id", ["workflowId"])
     .index("by_workflow_order", ["workflowId", "order"])
-    .index("by_order", ["order"])
-    .index("by_creation_time", ["_creationTime"]),
+    .index("by_order", ["order"]),
 
   resource: defineTable({
     title: v.optional(v.string()),
@@ -129,6 +119,5 @@ export default defineSchema({
     updatedAt: v.optional(v.number()), 
   })
     .index("by_author_id", ["authorId"])
-    .index("by_creation_time", ["_creationTime"])
     .index("by_url", ["url"]),
 });

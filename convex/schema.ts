@@ -81,14 +81,15 @@ export default defineSchema({
     .index("by_difficulty_pay", ["difficulty", "pay"]),
 
   faq: defineTable({
-    workflowId: v.optional(v.id("workflow")),
-    resourceId: v.optional(v.id("resource")),
+    type: v.union(v.literal("workflow"), v.literal("article")),
+    contentId: v.string(), // ID of the workflow or article
     question: v.optional(v.string()),
     answer: v.optional(v.string()),
     updatedAt: v.optional(v.number()), 
   })
-    .index("by_workflow_id", ["workflowId"])
-    .index("by_resource_id", ["resourceId"]),
+    .index("by_type", ["type"])
+    .index("by_content_id", ["contentId"])
+    .index("by_type_content", ["type", "contentId"]),
 
   news: defineTable({
     title: v.optional(v.string()),
@@ -115,9 +116,10 @@ export default defineSchema({
     title: v.optional(v.string()),
     description: v.optional(v.string()),
     url: v.optional(v.string()),
-    authorId: v.id("users"),
+    // authorId: v.id("users"),
+    authorId: v.string(),
     updatedAt: v.optional(v.number()), 
   })
-    .index("by_author_id", ["authorId"])
+    // .index("by_author_id", ["authorId"])
     .index("by_url", ["url"]),
 });

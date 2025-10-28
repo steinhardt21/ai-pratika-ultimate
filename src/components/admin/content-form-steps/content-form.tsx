@@ -9,14 +9,11 @@ import { StepThree } from "./step-three"
 import { type ContentType } from "@/app/(admin)/admin/content/page"
 import { toast } from "sonner"
 
-function createContent(content: any, jsonData: Record<string, unknown>, categories: string[], status: "draft" | "published" | "archived") {
-  return {
-    success: true,
-    error: null,
-  }
+interface ContentFormProps {
+  createResourceAction?: (formData: FormData) => Promise<void>
 }
 
-export function ContentForm() {
+export function ContentForm({ createResourceAction }: ContentFormProps) {
   const [open, setOpen] = useState(false)
   const [step, setStep] = useState(1)
   const [contentType, setContentType] = useState<ContentType | null>(null)
@@ -53,19 +50,40 @@ export function ContentForm() {
   const handleSubmit = async () => {
     if (!contentType || !jsonData) return
 
-    const result = await createContent(contentType, jsonData, categories, status)
+    try {
+      if (contentType === "resource" && createResourceAction) {
+        // Create FormData for server action
+        const formData = new FormData()
+        formData.append("title", (jsonData.title as string) || "")
+        formData.append("description", (jsonData.description as string) || "")
+        formData.append("url", (jsonData.url as string) || "")
+        formData.append("authorId", "temp-author-id") // TODO: Get actual user ID
+        
+        // Add FAQs if they exist
+        const faqs = Object.entries(jsonData)
+          .filter(([key]) => key.startsWith("faq") && key.includes("question"))
+          .map((_, index) => ({
+            question: jsonData[`faq${index + 1}_question`] as string,
+            answer: jsonData[`faq${index + 1}_answer`] as string,
+          }))
+          .filter(faq => faq.question && faq.answer)
+        
+        if (faqs.length > 0) {
+          formData.append("faqs", JSON.stringify(faqs))
+        }
 
-    if (result.success) {
-      toast.success(  "Content created", {
+        await createResourceAction(formData)
+      }
+
+      toast.success("Content created", {
         position: 'top-center',
-        className: 'text-black',
         description: "Your content has been created successfully.",
       })
       handleClose()
-      // router.refresh()
-    } else {
+    } catch (error) {
       toast.error("Error", {
-        description: result.error || "Failed to create content",
+        position: 'top-center',
+        description: "Failed to create content",
       })
     }
   }

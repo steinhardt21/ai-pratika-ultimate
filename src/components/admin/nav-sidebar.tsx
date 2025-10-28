@@ -3,6 +3,8 @@
 import { Icons } from "@/components/icons"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
 import {
   Sidebar,
   SidebarContent,
@@ -24,7 +26,12 @@ interface NavigationSidebarProps {
 }
 
 export function NavigationSidebar({ items }: NavigationSidebarProps) {
-  const path = usePathname()
+  const pathname = usePathname()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <Sidebar variant="inset" collapsible="icon">
@@ -46,11 +53,19 @@ export function NavigationSidebar({ items }: NavigationSidebarProps) {
             <SidebarMenu>
             {items.map((item, index) => {
             const Icon = Icons[item.icon as keyof typeof Icons] || "arrowRight"
+            const isActive = mounted && pathname === item.href
             return (
               item.href && (
-
                 <SidebarMenuItem key={index}>
-                  <SidebarMenuButton disabled={item.disabled || false} asChild tooltip={item.title} isActive={path === item.href}>
+                  <SidebarMenuButton 
+                    disabled={item.disabled || false} 
+                    asChild 
+                    tooltip={item.title}
+                    className={cn(
+                      "min-w-8 duration-200 ease-linear",
+                      isActive && "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
+                    )}
+                  >
                     <Link href={item.disabled ? "/" : item.href}>
                       <Icon className="mr-2 h-4 w-4" />
                       <span>{item.title}</span>

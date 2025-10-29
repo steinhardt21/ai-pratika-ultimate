@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge"
-import { Circle, CircleCheck, CircleX, Loader } from 'lucide-react'
+import { Circle, CircleCheck, CircleX } from 'lucide-react'
 
 interface StatusBadgeProps {
   status: string

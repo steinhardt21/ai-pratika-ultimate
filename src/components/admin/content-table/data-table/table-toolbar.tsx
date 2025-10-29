@@ -12,11 +12,12 @@ import {
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { schema } from "./columns"
+import { z } from "zod"
 // import type { schema } from "./columns"
 
 interface TableToolbarProps {
-  // table: Table<z.infer<typeof schema>>
-  table: Table<any>
+  table: Table<z.infer<typeof schema>>
 }
 
 export function TableToolbar({ table }: TableToolbarProps) {

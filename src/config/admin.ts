@@ -1,5 +1,4 @@
 import type { AdminConfig } from "@/types"
-import { Icons } from "@/components/icons"
 
 export const adminConfig: AdminConfig = {
   mainNav: [],

@@ -60,7 +60,7 @@ export function StepTwo({ categories, setCategories, extractedPersonas = [], ext
     if (autoSelected.length > 0) {
       setCategories(autoSelected)
     }
-  }, [extractedPersonas, extractedTools])
+  }, [extractedPersonas, extractedTools, setCategories])
 
   const toggleCategory = (category: string) => {
     if (categories.includes(category)) {

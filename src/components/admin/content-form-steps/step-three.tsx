@@ -16,7 +16,7 @@ export function StepThree({ status, setStatus }: StepThreeProps) {
         <p className="text-sm text-muted-foreground">Choose the status for this content</p>
       </div>
 
-      <RadioGroup value={status} onValueChange={(v) => setStatus(v as any)}>
+      <RadioGroup value={status} onValueChange={(v) => setStatus(v as "draft" | "published" | "archived")}>
         <div className="space-y-2.5 sm:space-y-3">
           <div className="flex items-start gap-3 rounded-lg border p-3 sm:p-4 hover:bg-muted/50 transition-colors">
             <RadioGroupItem value="draft" id="draft" className="mt-0.5" />

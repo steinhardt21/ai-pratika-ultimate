@@ -41,6 +41,7 @@ export function StepOne({ contentType, setContentType, jsonData, setJsonData, on
         validateJsonData(parsed, contentType)
       }
     } catch (e) {
+      console.error("Invalid JSON format: ", e)
       setJsonData(null)
       setParseError("Invalid JSON format")
       setValidationErrors([])
@@ -70,7 +71,7 @@ export function StepOne({ contentType, setContentType, jsonData, setJsonData, on
     if (jsonData && contentType) {
       validateJsonData(jsonData, contentType)
     }
-  }, [contentType])
+  }, [contentType, jsonData, validateJsonData])
 
   return (
     <div className="space-y-6 sm:space-y-8">

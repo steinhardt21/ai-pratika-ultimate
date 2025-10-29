@@ -17,7 +17,7 @@ import {
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent } from "@/components/ui/tabs"
-import { columns, type schema } from "./data-table/columns"
+import { columns } from "./data-table/columns"
 import { TablePagination } from "./data-table/table-pagination"
 import { TableToolbar } from "./data-table/table-toolbar"
 import { api } from "../../../../convex/_generated/api"

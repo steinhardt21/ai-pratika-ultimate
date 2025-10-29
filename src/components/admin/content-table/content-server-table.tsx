@@ -3,9 +3,21 @@ import { DataTableClient } from "./content-client-table"
 import { api } from "../../../../convex/_generated/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { preloadQuery } from "convex/nextjs";
+import { unstable_cache } from "next/cache"
+
+const getArticles = unstable_cache(
+    async (type: "resource" | "workflow") => {
+        return await preloadQuery(api.article.getArticlesByType, { type });
+    },
+    ["articles-by-type"],
+    {
+        tags: ["articles"],
+        revalidate: 60, // Cache for 60 seconds
+    }
+);
 
 export async function DataTableServer() {
-    const preloadedArticles = await preloadQuery(api.article.getArticlesByType, { type: "resource" });
+    const preloadedArticles = await getArticles("resource");
 
     return (
         <Tabs defaultValue="outline" className="w-full flex-col justify-start gap-6">

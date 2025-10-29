@@ -5,9 +5,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import { useState, useEffect, useCallback } from "react"
 import type { ContentType } from "@/app/(admin)/admin/content/page"
-import { validateResource } from "@/lib/admin/validators-content/resource-validator"
-import { validateWorkflow } from "@/lib/admin/validators-content/workflow-validator"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { parseAndValidateJson, validateJsonData } from "@/lib/admin/json-validation"
 interface StepOneProps {
   contentType: ContentType | null
   setContentType: (type: ContentType) => void
@@ -31,47 +30,40 @@ export function StepOne({ contentType, setContentType, jsonData, setJsonData, on
       onValidationChange?.(false)
       return
     }
-
-    try {
-      const parsed = JSON.parse(value)
-      setJsonData(parsed)
-      setParseError(null)
-
-      if (contentType) {
-        validateJsonData(parsed, contentType)
-      }
-    } catch (e) {
-      console.error("Invalid JSON format: ", e)
+    const result = parseAndValidateJson(value)
+    
+    if (!result.success) {
       setJsonData(null)
-      setParseError("Invalid JSON format")
+      setParseError(result.error || "Invalid JSON format")
       setValidationErrors([])
       onValidationChange?.(false)
+      return
+    }
+
+    // Successfully parsed JSON
+    const parsed = result.data!
+    setJsonData(parsed)
+    setParseError(null)
+
+    if (contentType) {
+      performContentValidation(parsed, contentType)
     }
   }
 
-  const validateJsonData = useCallback((data: Record<string, unknown>, type: ContentType) => {
-    if (type === "resource") {
-      const result = validateResource(data)
-      setValidationErrors(result.errors)
-      onValidationChange?.(result.isValid, {
-        personas: result.extractedPersonas || [],
-        tools: result.extractedTools || [],
-      })
-    } else if (type === "workflow") {
-      const result = validateWorkflow(data)
-      setValidationErrors(result.errors)
-      onValidationChange?.(result.isValid, {
-        personas: result.extractedPersonas || [],
-        tools: result.extractedTools || [],
-      })
-    }
-  }, [onValidationChange])
+  const performContentValidation = useCallback((data: Record<string, unknown>, type: ContentType) => {
+    const result = validateJsonData(data, type)
+    setValidationErrors(result.errors)
+    onValidationChange?.(result.isValid, {
+      personas: result.extractedPersonas || [],
+      tools: result.extractedTools || [],
+    })
+  }, [onValidationChange]) 
 
   useEffect(() => {
     if (jsonData && contentType) {
-      validateJsonData(jsonData, contentType)
+      performContentValidation(jsonData, contentType)
     }
-  }, [contentType, jsonData, validateJsonData])
+  }, [contentType, jsonData, performContentValidation])
 
   return (
     <div className="space-y-6 sm:space-y-8">

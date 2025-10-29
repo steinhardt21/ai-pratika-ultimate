@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/providers/theme-provider"
 import { ConvexClientProvider } from "@/providers/convex-client-provider"
+import { ViewTransitions } from 'next-view-transitions'
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,6 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ViewTransitions>
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -42,5 +45,6 @@ export default function RootLayout({
         <Toaster />
       </body>
     </html>
+    </ViewTransitions>
   );
 }

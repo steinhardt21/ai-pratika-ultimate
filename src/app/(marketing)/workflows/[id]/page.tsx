@@ -45,7 +45,7 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
     return (
         <div>
             <h1>{id}</h1>
-            <Image src={articleWorkflow.imageUrl || ""} alt={articleWorkflow.title || ""} width={1000} height={1000} />
+            <Image src={articleWorkflow.imageUrl || ""} style={{ viewTransitionName: `image-${id}`}} alt={articleWorkflow.title || ""} width={1000} height={1000} />
         </div>
     );
 }

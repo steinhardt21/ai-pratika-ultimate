@@ -1,4 +1,6 @@
-import Link from "next/link"
+// import Link from "next/link"
+import { Link } from "next-view-transitions";
+
 import Image from "next/image"
 import { Star, Clock, BookmarkCheck } from 'lucide-react'
 import ReactMarkdown from "react-markdown"
@@ -38,12 +40,16 @@ export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<
 
   
   return (
+    
     <Link
       prefetch={true}
       href={`/workflows/${articleWorkflow._id}`}
       key={articleWorkflow._id}
       className="bg-white dark:bg-aipratika-green-dark rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 border border-aipratika-green/10 dark:border-aipratika-cream/10 cursor-pointer relative group flex flex-col h-[420px]"
     >
+
+
+
       {/* Media Section - Fixed height */}
       {(articleWorkflow.videoUrl || articleWorkflow.imageUrl) && (
         <div className="relative shrink-0 w-full h-48">
@@ -55,11 +61,8 @@ export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<
             // />
             <div />
           ) : articleWorkflow.imageUrl ? (
-            <img
-              src={articleWorkflow.imageUrl}
-              alt={articleWorkflow.title}
-              className="w-full h-full object-cover"
-            />
+            <Image className="w-full h-full object-cover" style={{ viewTransitionName: `image-${articleWorkflow._id}`}} src={articleWorkflow.imageUrl || ""} alt={articleWorkflow.title || ""} width={1000} height={1000} />
+
           ) : null}
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-linear-to-t from-aipratika-orange/80 via-aipratika-orange/40 to-aipratika-orange-light/10 z-10"></div>

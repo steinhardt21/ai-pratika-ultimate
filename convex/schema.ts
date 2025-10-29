@@ -56,7 +56,7 @@ export default defineSchema({
     status: articleStatusEnum,
     targetProfessions: v.array(v.id("profession")),
     targetAiInstruments: v.array(v.id("aiInstrument")),
-    contentId: v.optional(v.id("workflow")), // This could reference workflow, news, or resource
+    contentId: v.optional(v.string()), // ID that can reference workflow, news, or resource
     updatedAt: v.optional(v.number()), 
   })
     .index("by_type_status", ["type", "status"])

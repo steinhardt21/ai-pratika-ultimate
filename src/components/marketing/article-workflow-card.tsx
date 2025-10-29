@@ -49,7 +49,6 @@ export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<
     >
 
 
-
       {/* Media Section - Fixed height */}
       {(articleWorkflow.videoUrl || articleWorkflow.imageUrl) && (
         <div className="relative shrink-0 w-full h-48">
@@ -105,7 +104,7 @@ export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<
         }`}>
         {/* Header Section */}
         <div className="flex justify-between items-start mb-3">
-          <h3 className="font-semibold text-aipratika-green dark:text-aipratika-cream leading-tight text-base md:text-lg line-clamp-2">
+          <h3 style={{ viewTransitionName: `title-${articleWorkflow._id}` }} className="font-semibold text-aipratika-green dark:text-aipratika-cream leading-tight text-base md:text-lg line-clamp-2">
             {articleWorkflow.title}
           </h3>
           {/* Remove Button for cards without media */}

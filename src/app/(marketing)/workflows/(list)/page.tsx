@@ -1,9 +1,9 @@
-import { api } from "../../../../convex/_generated/api"
+import { api } from "../../../../../convex/_generated/api"
 import { fetchQuery } from "convex/nextjs"
 import { unstable_cache } from "next/cache"
 
 import { ArticleWorkflowCard } from "@/components/marketing/article-workflow-card"
-import { Doc } from "../../../../convex/_generated/dataModel";
+import { Doc } from "../../../../../convex/_generated/dataModel";
 
 const getWorkflows = unstable_cache(
     async () => {

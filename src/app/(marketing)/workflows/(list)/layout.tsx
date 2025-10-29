@@ -17,7 +17,6 @@ interface WorkflowsLayoutProps {
             </div>
           </div>
         </section>
-  
         {children}
       </div>
     );

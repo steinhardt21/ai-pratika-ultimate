@@ -3,10 +3,12 @@ import Image from "next/image"
 import { Star, Clock, BookmarkCheck } from 'lucide-react'
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
+import { ViewTransition } from 'react'
 
 import { Badge } from "../ui/badge"
 import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip"
 import { Doc } from "@/../convex/_generated/dataModel";
+import { ImageViewTransition } from "./image-view-tranisition"
 
 // Author sticker mapping function
 const getAuthorSticker = (authorName: string): string | null => {
@@ -21,8 +23,6 @@ const getAuthorSticker = (authorName: string): string | null => {
 };
 
 export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<"article"> & { content: Doc<"workflow"> } }) {
-
-  console.log('articleWorkflow', articleWorkflow);
 
   const markdownComponents = {
     a: ({ children, href, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
@@ -45,6 +45,9 @@ export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<
       className="bg-white dark:bg-aipratika-green-dark rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 border border-aipratika-green/10 dark:border-aipratika-cream/10 cursor-pointer relative group flex flex-col h-[420px]"
     >
       {/* Media Section - Fixed height */}
+
+      <ImageViewTransition url={articleWorkflow.imageUrl ?? null} articleId={articleWorkflow._id} />
+
       {(articleWorkflow.videoUrl || articleWorkflow.imageUrl) && (
         <div className="relative shrink-0 w-full h-48">
           {articleWorkflow.videoUrl ? (
@@ -55,10 +58,12 @@ export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<
             // />
             <div />
           ) : articleWorkflow.imageUrl ? (
-            <img
+          
+            <Image
               src={articleWorkflow.imageUrl}
-              alt={articleWorkflow.title}
+              alt={articleWorkflow.title ?? ""}
               className="w-full h-full object-cover"
+              fill={true}
             />
           ) : null}
           {/* Gradient overlay */}

@@ -4,6 +4,7 @@ import { Id } from "../../../../../convex/_generated/dataModel";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Image from "next/image";
+import { ViewTransition } from "react";
 type WorkflowPageProps = {
     params: Promise<{ id: string }>;
 }
@@ -41,11 +42,13 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
     if (!articleWorkflow) {
         return notFound();
       }
-    
+    console.log('view transition: ', articleWorkflow._id);
     return (
         <div>
-            <h1>{id}</h1>
-            <Image src={articleWorkflow.imageUrl || ""} alt={articleWorkflow.title || ""} width={1000} height={1000} />
+            <h1>{articleWorkflow.title}</h1>
+            <ViewTransition name="image-view-transition">
+            <Image src={articleWorkflow.imageUrl!} alt={articleWorkflow.title || ""} width={1000} height={1000} />
+        </ViewTransition>
         </div>
     );
 }

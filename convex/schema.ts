@@ -5,8 +5,8 @@ import { v } from "convex/values";
 const roleEnum = v.union(v.literal("admin"), v.literal("editor"), v.literal("member"));
 const articleTypeEnum = v.union(v.literal("tutorial"), v.literal("news"), v.literal("workflow"), v.literal("resource"));
 const articleStatusEnum = v.union(v.literal("active"), v.literal("draft"), v.literal("archived"));
-const difficultyEnum = v.union(v.literal("beginner"), v.literal("intermediate"), v.literal("advanced"));
-const payEnum = v.union(v.literal("free"), v.literal("freemium"), v.literal("paid"));
+const difficultyEnum = v.optional(v.union(v.literal("beginner"), v.literal("intermediate"), v.literal("advanced")));
+const payEnum = v.optional(v.union(v.literal("free"), v.literal("freemium"), v.literal("paid")));
 
 export default defineSchema({
   users: defineTable({
@@ -58,6 +58,11 @@ export default defineSchema({
     targetAiInstruments: v.array(v.id("aiInstrument")),
     contentId: v.optional(v.string()), // ID that can reference workflow, news, or resource
     updatedAt: v.optional(v.number()), 
+    imageUrl: v.optional(v.string()),
+    videoUrl: v.optional(v.string()),
+    description: v.optional(v.string()),
+    difficulty: difficultyEnum,
+    pay: payEnum,
   })
     .index("by_type_status", ["type", "status"])
     .index("by_content_id", ["contentId"])
@@ -65,20 +70,12 @@ export default defineSchema({
     .index("by_type", ["type"]),
 
   workflow: defineTable({
-    title: v.optional(v.string()),
-    description: v.optional(v.string()),
-    imageUrl: v.optional(v.string()),
-    videoUrl: v.optional(v.string()),
     authorId: v.string(),  
-    difficulty: difficultyEnum,
     timing: v.optional(v.string()),
-    pay: payEnum,
+    
     updatedAt: v.optional(v.number()), 
   })
-    .index("by_author_id", ["authorId"])
-    .index("by_difficulty", ["difficulty"])
-    .index("by_pay", ["pay"])
-    .index("by_difficulty_pay", ["difficulty", "pay"]),
+    .index("by_author_id", ["authorId"]),
 
   faq: defineTable({
     type: v.union(v.literal("workflow"), v.literal("article")),
@@ -92,9 +89,6 @@ export default defineSchema({
     .index("by_type_content", ["type", "contentId"]),
 
   news: defineTable({
-    title: v.optional(v.string()),
-    description: v.optional(v.string()),
-    imageUrl: v.optional(v.string()),
     authorId: v.id("users"),
     updatedAt: v.optional(v.number()), 
   })
@@ -113,8 +107,6 @@ export default defineSchema({
     .index("by_order", ["order"]),
 
   resource: defineTable({
-    title: v.optional(v.string()),
-    description: v.optional(v.string()),
     url: v.optional(v.string()),
     // authorId: v.id("users"),
     authorId: v.string(),

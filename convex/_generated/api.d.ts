@@ -9,7 +9,6 @@
  */
 
 import type * as article from "../article.js";
-import type * as resource from "../resource.js";
 
 import type {
   ApiFromModules,
@@ -27,7 +26,6 @@ import type {
  */
 declare const fullApi: ApiFromModules<{
   article: typeof article;
-  resource: typeof resource;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 

@@ -1,7 +1,7 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { NavigationSidebar } from "@/components/admin/nav-sidebar"
 import { adminConfig } from "@/config/admin"
-import { AdminHeader } from "@/components/admin/header"
+
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (

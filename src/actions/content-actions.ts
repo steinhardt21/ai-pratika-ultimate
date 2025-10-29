@@ -20,7 +20,7 @@ export async function createResourceArticle(formData: FormData): Promise<void> {
     title,
     description,
     url,
-    authorId: authorId as any, // Type assertion for Convex ID
+    authorId: authorId as string, // Type assertion for Convex ID
     targetProfessions,
     targetAiInstruments,
     faqs,

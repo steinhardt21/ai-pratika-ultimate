@@ -3,7 +3,7 @@
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import type { ContentType } from "@/app/(admin)/admin/content/page"
 import { validateResource } from "@/lib/admin/validators-content/resource-validator"
 import { validateWorkflow } from "@/lib/admin/validators-content/workflow-validator"
@@ -41,6 +41,7 @@ export function StepOne({ contentType, setContentType, jsonData, setJsonData, on
         validateJsonData(parsed, contentType)
       }
     } catch (e) {
+      console.error("Invalid JSON format: ", e)
       setJsonData(null)
       setParseError("Invalid JSON format")
       setValidationErrors([])
@@ -48,7 +49,7 @@ export function StepOne({ contentType, setContentType, jsonData, setJsonData, on
     }
   }
 
-  const validateJsonData = (data: Record<string, unknown>, type: ContentType) => {
+  const validateJsonData = useCallback((data: Record<string, unknown>, type: ContentType) => {
     if (type === "resource") {
       const result = validateResource(data)
       setValidationErrors(result.errors)
@@ -64,13 +65,13 @@ export function StepOne({ contentType, setContentType, jsonData, setJsonData, on
         tools: result.extractedTools || [],
       })
     }
-  }
+  }, [onValidationChange])
 
   useEffect(() => {
     if (jsonData && contentType) {
       validateJsonData(jsonData, contentType)
     }
-  }, [contentType])
+  }, [contentType, jsonData, validateJsonData])
 
   return (
     <div className="space-y-6 sm:space-y-8">

@@ -83,7 +83,7 @@ export function ContentForm({ createResourceAction }: ContentFormProps) {
     } catch (error) {
       toast.error("Error", {
         position: 'top-center',
-        description: "Failed to create content",
+        description: "Failed to create content: " + error,
       })
     }
   }

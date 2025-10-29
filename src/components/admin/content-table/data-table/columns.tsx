@@ -2,7 +2,7 @@ import { MoreVertical } from 'lucide-react'
 import type { ColumnDef } from "@tanstack/react-table"
 import { z } from "zod"
 
-import { Badge } from "@/components/ui/badge"
+// import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -12,9 +12,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { EditableCell } from "./editable-cell"
+// import { Label } from "@/components/ui/label"
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+// import { EditableCell } from "./editable-cell"
 import { StatusBadge } from "./status-badge"
 import { TableCellViewer } from "./table-cell-viewer"
 

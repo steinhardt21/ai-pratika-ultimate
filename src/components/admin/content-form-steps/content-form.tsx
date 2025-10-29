@@ -8,12 +8,14 @@ import { StepTwo } from "./step-two"
 import { StepThree } from "./step-three"
 import { type ContentType } from "@/app/(admin)/admin/content/page"
 import { toast } from "sonner"
+import { processContentForm } from "@/lib/admin/form-processors"
 
 interface ContentFormProps {
-  createResourceAction?: (formData: FormData) => Promise<void>
+  createResourceAction?: (formData: FormData) => Promise<void>,
+  createWorkflowAction?: (formData: FormData) => Promise<void>,
 }
 
-export function ContentForm({ createResourceAction }: ContentFormProps) {
+export function ContentForm({ createResourceAction, createWorkflowAction }: ContentFormProps) {
   const [open, setOpen] = useState(false)
   const [step, setStep] = useState(1)
   const [contentType, setContentType] = useState<ContentType | null>(null)
@@ -51,28 +53,12 @@ export function ContentForm({ createResourceAction }: ContentFormProps) {
     if (!contentType || !jsonData) return
 
     try {
-      if (contentType === "resource" && createResourceAction) {
-        // Create FormData for server action
-        const formData = new FormData()
-        formData.append("title", (jsonData.title as string) || "")
-        formData.append("description", (jsonData.description as string) || "")
-        formData.append("url", (jsonData.url as string) || "")
-        formData.append("authorId", "temp-author-id") // TODO: Get actual user ID
-        
-        // Add FAQs if they exist
-        const faqs = Object.entries(jsonData)
-          .filter(([key]) => key.startsWith("faq") && key.includes("question"))
-          .map((_, index) => ({
-            question: jsonData[`faq${index + 1}_question`] as string,
-            answer: jsonData[`faq${index + 1}_answer`] as string,
-          }))
-          .filter(faq => faq.question && faq.answer)
-        
-        if (faqs.length > 0) {
-          formData.append("faqs", JSON.stringify(faqs))
-        }
-
+      const formData = processContentForm(contentType, jsonData, categories)
+      
+      if (contentType === "resource" && createResourceAction) { 
         await createResourceAction(formData)
+      } else if (contentType === "workflow" && createWorkflowAction) {
+        await createWorkflowAction(formData)
       }
 
       toast.success("Content created", {

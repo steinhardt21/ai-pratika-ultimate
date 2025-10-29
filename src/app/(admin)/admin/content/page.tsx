@@ -1,18 +1,17 @@
 import { AdminHeader } from "@/components/admin/header";
 import { AdminShell } from "@/components/admin/shell";
 import { ContentForm } from "@/components/admin/content-form-steps/content-form";
-import { createResourceArticle } from "@/actions/content-actions";
+import { createResourceArticle, createWorkflowArticle } from "@/actions/content-actions";
 import { DataTableServer } from "@/components/admin/content-table/content-server-table";
 import { Suspense } from "react";
 
 export type ContentType = "workflow" | "resource"
 
 export default async function ContentPage() {
-  
   return (
     <AdminShell>
       <AdminHeader heading="Contenuti">
-        <ContentForm createResourceAction={createResourceArticle} />
+        <ContentForm createResourceAction={createResourceArticle} createWorkflowAction={createWorkflowArticle} />
       </AdminHeader>
       <main className="flex flex-1 flex-col">
         <div className="@container/main flex flex-1 flex-col gap-2">

@@ -4,8 +4,8 @@ export const workflowSchema = z
   .object({
     title: z.string().min(1, "Title is required").max(256, "Title must be 256 characters or less"),
     description: z.string().min(1, "Description is required"),
-    difficulty: z.enum(["Facile", "Medio", "Difficile"], {
-      message: 'Difficulty must be "Facile", "Medio", or "Difficile"',
+    difficulty: z.enum(["beginner", "intermediate", "advanced"], {
+      message: 'Difficulty must be "beginner", "intermediate", or "advanced"',
     }),
     timing: z.string().min(1, "Timing is required"),
     pay: z.enum(["free", "freemium", "paid"], {

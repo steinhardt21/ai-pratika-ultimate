@@ -57,13 +57,13 @@ export function StepOne({ contentType, setContentType, jsonData, setJsonData, on
       personas: result.extractedPersonas || [],
       tools: result.extractedTools || [],
     })
-  }, [onValidationChange]) 
+  }, []) 
 
   useEffect(() => {
     if (jsonData && contentType) {
       performContentValidation(jsonData, contentType)
     }
-  }, [contentType, jsonData, performContentValidation])
+  }, [contentType, jsonData]) 
 
   return (
     <div className="space-y-6 sm:space-y-8">

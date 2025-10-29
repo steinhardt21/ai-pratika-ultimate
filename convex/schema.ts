@@ -69,7 +69,7 @@ export default defineSchema({
     description: v.optional(v.string()),
     imageUrl: v.optional(v.string()),
     videoUrl: v.optional(v.string()),
-    authorId: v.id("users"),
+    authorId: v.string(),  
     difficulty: difficultyEnum,
     timing: v.optional(v.string()),
     pay: payEnum,

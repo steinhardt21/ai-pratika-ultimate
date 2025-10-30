@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/providers/theme-provider"
 import { ConvexClientProvider } from "@/providers/convex-client-provider"
 import { ViewTransitions } from 'next-view-transitions'
+import { ClerkProvider } from '@clerk/nextjs'
 
 import "./globals.css";
 
@@ -29,22 +30,24 @@ export default function RootLayout({
 }>) {
   return (
     <ViewTransitions>
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          disableTransitionOnChange
-        >
-          <ConvexClientProvider>
-            {children}
-          </ConvexClientProvider>
-        </ThemeProvider>
-        <Toaster />
-      </body>
-    </html>
+      <ClerkProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              disableTransitionOnChange
+            >
+              <ConvexClientProvider>
+                {children}
+              </ConvexClientProvider>
+            </ThemeProvider>
+            <Toaster />
+          </body>
+        </html>
+      </ClerkProvider>
     </ViewTransitions>
   );
 }

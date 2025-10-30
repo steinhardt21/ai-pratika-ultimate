@@ -216,7 +216,7 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                       <Card key={step.order} className="bg-white dark:bg-aipratika-green/20 border-aipratika-green/10 dark:border-aipratika-cream/10 shadow-lg">
                         <CardContent className="p-4 sm:p-6">
                           <div className="flex items-start gap-3 sm:gap-4">
-                            <div className="w-8 h-8 bg-gradient-to-r from-aipratika-orange to-aipratika-orange-light rounded-full flex items-center justify-center flex-shrink-0">
+                            <div className="w-8 h-8 bg-linear-to-r from-aipratika-orange to-aipratika-orange-light rounded-full flex items-center justify-center flex-shrink-0">
                               <span className="text-white font-bold text-sm">{step.order}</span>
                             </div>
                             <div className="flex-1 min-w-0">

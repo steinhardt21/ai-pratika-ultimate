@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
+import { Id } from "./_generated/dataModel";
 
 export const getArticlesByType = query({
   args: {
@@ -50,6 +51,11 @@ export const getWorkflowArticleById = query({
           .first()
       : null;
 
+    // Get the author information if workflow exists
+    const author = workflow?.authorId
+      ? await ctx.db.get(workflow.authorId as Id<"user">)
+      : null;
+
     // Get the workflow steps ordered by step order
     const steps = workflow 
       ? await ctx.db
@@ -88,6 +94,8 @@ export const getWorkflowArticleById = query({
         _id: workflow._id,
         _creationTime: workflow._creationTime,
         authorId: workflow.authorId,
+        authorFirstName: author?.firstName,
+        authorLastName: author?.lastName,
         timing: workflow.timing,
         updatedAt: workflow.updatedAt,
       } : null,
@@ -170,7 +178,7 @@ export const createWorkflowArticle = mutation({
     difficulty: v.union(v.literal("beginner"), v.literal("intermediate"), v.literal("advanced")),
     timing: v.string(),
     pay: v.union(v.literal("free"), v.literal("freemium"), v.literal("paid")),
-    authorId: v.string(),
+    clerkId: v.string(),
     targetProfessions: v.array(v.id("profession")),
     targetAiInstruments: v.array(v.id("aiInstrument")),
     imageUrl: v.optional(v.string()),
@@ -185,10 +193,17 @@ export const createWorkflowArticle = mutation({
     }))),
   },
   handler: async (ctx, args) => {
+
+    const user = await ctx.db.query("user").withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId)).first();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
     // First, create the workflow
     const workflowId = await ctx.db.insert("workflow", {
       timing: args.timing,
-      authorId: args.authorId,  
+      authorId: user._id,  
       updatedAt: Date.now(),
     });
 

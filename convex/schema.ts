@@ -20,7 +20,7 @@ export default defineSchema({
     .index("by_email", ["email"]),
 
   membership: defineTable({
-    userId: v.id("users"),
+    userId: v.id("user"),
     role: roleEnum,
     updatedAt: v.optional(v.number()), // Timestamp in milliseconds (Date.now())
   })
@@ -43,7 +43,7 @@ export default defineSchema({
 
   savedArticle: defineTable({
     articleId: v.id("article"),
-    userId: v.id("users"),
+    userId: v.id("user"),
     updatedAt: v.optional(v.number()), // Timestamp in milliseconds (Date.now())
   })
     .index("by_article_id", ["articleId"])
@@ -89,7 +89,7 @@ export default defineSchema({
     .index("by_type_content", ["type", "contentId"]),
 
   news: defineTable({
-    authorId: v.id("users"),
+    authorId: v.id("user"),
     updatedAt: v.optional(v.number()), 
   })
     .index("by_author_id", ["authorId"]),
@@ -108,7 +108,7 @@ export default defineSchema({
 
   resource: defineTable({
     url: v.optional(v.string()),
-    // authorId: v.id("users"),
+    // authorId: v.id("user"),
     authorId: v.string(),
     updatedAt: v.optional(v.number()), 
   })

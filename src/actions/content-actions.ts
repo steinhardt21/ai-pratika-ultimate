@@ -3,12 +3,15 @@
 import { fetchMutation } from "convex/nextjs";
 import { revalidatePath } from "next/cache";
 import { api } from "@/../convex/_generated/api";
+import { auth } from "@clerk/nextjs/server";
 
 export async function createResourceArticle(formData: FormData): Promise<void> {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
   const url = formData.get("url") as string;
-  const authorId = formData.get("authorId") as string;
   const targetProfessions = JSON.parse(formData.get("targetProfessions") as string || "[]");
   const targetAiInstruments = JSON.parse(formData.get("targetAiInstruments") as string || "[]");
   
@@ -20,7 +23,7 @@ export async function createResourceArticle(formData: FormData): Promise<void> {
     title,
     description,
     url,
-    authorId: authorId as string, // Type assertion for Convex ID
+    authorId: userId,
     targetProfessions,
     targetAiInstruments,
     faqs,
@@ -30,12 +33,14 @@ export async function createResourceArticle(formData: FormData): Promise<void> {
 }
 
 export async function createWorkflowArticle(formData: FormData): Promise<void> {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
   const difficulty = formData.get("difficulty") as "beginner" | "intermediate" | "advanced";
   const timing = formData.get("timing") as string;
   const pay = formData.get("pay") as "free" | "freemium" | "paid";
-  const authorId = formData.get("authorId") as string;
   const imageUrl = formData.get("imageUrl") as string | null;
   const targetProfessions = JSON.parse(formData.get("targetProfessions") as string || "[]");
   const targetAiInstruments = JSON.parse(formData.get("targetAiInstruments") as string || "[]");
@@ -54,7 +59,7 @@ export async function createWorkflowArticle(formData: FormData): Promise<void> {
     difficulty,
     timing,
     pay,
-    authorId,
+    clerkId: userId,
     imageUrl: imageUrl || undefined,
     targetProfessions,
     targetAiInstruments,

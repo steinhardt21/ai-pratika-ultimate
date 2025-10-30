@@ -12,69 +12,69 @@ import remarkGfm from "remark-gfm";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 type WorkflowPageProps = {
-    params: Promise<{ id: string }>;
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata(props: WorkflowPageProps): Promise<Metadata> {
-    const params = await props.params;
-    const article = await fetchQuery(api.article.getWorkflowArticleById, { id: params.id as Id<"article">});
-  
-    if (!article) {
-      return notFound();
-    }
-  
-    const title = `${article.title} | AI Pratika`;
-  
-    return {
-      title,
-      openGraph: {
-        title,
-        images: [article.imageUrl || ""],
-      },
-    };
+  const params = await props.params;
+  const article = await fetchQuery(api.article.getWorkflowArticleById, { id: params.id as Id<"article"> });
+
+  if (!article) {
+    return notFound();
   }
 
+  const title = `${article.title} | AI Pratika`;
+
+  return {
+    title,
+    openGraph: {
+      title,
+      images: [article.imageUrl || ""],
+    },
+  };
+}
+
 export async function generateStaticParams() {
-    const workflows = await fetchQuery(api.article.getArticlesByType, { type: "workflow" });
-    return workflows.map((workflow) => ({
-        id: workflow._id,
-    }));
+  const workflows = await fetchQuery(api.article.getArticlesByType, { type: "workflow" });
+  return workflows.map((workflow) => ({
+    id: workflow._id,
+  }));
 }
 
 export default async function WorkflowPage({ params }: WorkflowPageProps) {
-    const { id } = await params;
-    const articleWorkflow = await fetchQuery(api.article.getWorkflowArticleById, { id: id as Id<"article">});
+  const { id } = await params;
+  const articleWorkflow = await fetchQuery(api.article.getWorkflowArticleById, { id: id as Id<"article"> });
 
-    if (!articleWorkflow) {
-        return notFound();
-      }
+  if (!articleWorkflow) {
+    return notFound();
+  }
 
-      const getDifficultyStyle = (difficulty: string) => {
-        switch (difficulty) {
-          case 'beginner':
-            return 'bg-gradient-to-r from-green-500/15 to-green-400/10 dark:from-green-400/20 dark:to-green-300/10 text-green-600 dark:text-green-400 border-green-500/20 dark:border-green-400/30';
-          case 'intermediate':
-            return 'bg-gradient-to-r from-yellow-500/15 to-yellow-400/10 dark:from-yellow-400/20 dark:to-yellow-300/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20 dark:border-yellow-400/30';
-          case 'advanced':
-            return 'bg-gradient-to-r from-red-500/15 to-red-400/10 dark:from-red-400/20 dark:to-red-300/10 text-red-600 dark:text-red-400 border-red-500/20 dark:border-red-400/30';
-          default:
-            return 'bg-gradient-to-r from-aipratika-blue/15 to-aipratika-blue/10 dark:from-aipratika-blue-light/20 dark:to-aipratika-blue-light/10 text-aipratika-blue dark:text-aipratika-blue-light border-aipratika-blue/20 dark:border-aipratika-blue-light/30';
-        }
-      };
+  const getDifficultyStyle = (difficulty: string) => {
+    switch (difficulty) {
+      case 'beginner':
+        return 'bg-gradient-to-r from-green-500/15 to-green-400/10 dark:from-green-400/20 dark:to-green-300/10 text-green-600 dark:text-green-400 border-green-500/20 dark:border-green-400/30';
+      case 'intermediate':
+        return 'bg-gradient-to-r from-yellow-500/15 to-yellow-400/10 dark:from-yellow-400/20 dark:to-yellow-300/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20 dark:border-yellow-400/30';
+      case 'advanced':
+        return 'bg-gradient-to-r from-red-500/15 to-red-400/10 dark:from-red-400/20 dark:to-red-300/10 text-red-600 dark:text-red-400 border-red-500/20 dark:border-red-400/30';
+      default:
+        return 'bg-gradient-to-r from-aipratika-blue/15 to-aipratika-blue/10 dark:from-aipratika-blue-light/20 dark:to-aipratika-blue-light/10 text-aipratika-blue dark:text-aipratika-blue-light border-aipratika-blue/20 dark:border-aipratika-blue-light/30';
+    }
+  };
 
-      const instructor = {
-        name: 'Silvio',
-        title: 'Founder',
-        avatar: '/founders/Silvio_sticker.webp'
-      };
-    
-    return (
-        // <div>
-        //     <h1>{id}</h1>
-        //     <Image src={articleWorkflow.imageUrl || ""} style={{ viewTransitionName: `image-${id}`}} alt={articleWorkflow.title || ""} width={1000} height={1000} />
-        // </div>
+  const instructor = {
+    name: `${articleWorkflow.workflow?.authorFirstName} ${articleWorkflow.workflow?.authorLastName}`,
+    title: 'Founder',
+    avatar: articleWorkflow.workflow?.authorFirstName === 'Silvio' ? '/founders/Silvio_sticker.webp' : '/founders/Alex_sticker.webp'
+  };
 
-        <div className="bg-aipratika-cream dark:bg-aipratika-green-dark bg-texture font-wotfard">
+  return (
+    // <div>
+    //     <h1>{id}</h1>
+    //     <Image src={articleWorkflow.imageUrl || ""} style={{ viewTransitionName: `image-${id}`}} alt={articleWorkflow.title || ""} width={1000} height={1000} />
+    // </div>
+
+    <div className="bg-aipratika-cream dark:bg-aipratika-green-dark bg-texture font-wotfard">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {/* Back Button */}
         <div className="mb-4 sm:mb-6">
@@ -98,12 +98,12 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
               {/* Instructor */}
               {instructor && (
                 <>
-                     <span
-                           className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-medium border ${getDifficultyStyle(articleWorkflow.difficulty!)}`}
-                         >
-                           {articleWorkflow.difficulty!}
-                         </span>
-                     <div className="flex items-center gap-3 mb-4">
+                  <span
+                    className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-medium border ${getDifficultyStyle(articleWorkflow.difficulty!)}`}
+                  >
+                    {articleWorkflow.difficulty!}
+                  </span>
+                  <div className="flex items-center gap-3 mb-4">
                     <img
                       src={instructor.avatar}
                       alt={instructor.name}
@@ -116,7 +116,7 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                   </div>
                 </>
               )}
-              
+
               {/* Personas Section */}
               {/* {professions.length > 0 && (
                 <>
@@ -180,23 +180,23 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                   // />
                   <div />
                 ) : articleWorkflow.imageUrl ? (
-                    <div className="aspect-video w-full">
-                      <Image 
-                        src={articleWorkflow.imageUrl || ""}
-                        alt={articleWorkflow.title || ""}
-                        className="w-full h-full object-cover rounded-lg"
-                        style={{ viewTransitionName: `image-${articleWorkflow._id}`}}
-                        width={1000}
-                        height={1000}
-                      />
-                    </div>
+                  <div className="aspect-video w-full">
+                    <Image
+                      src={articleWorkflow.imageUrl || ""}
+                      alt={articleWorkflow.title || ""}
+                      className="w-full h-full object-cover rounded-lg"
+                      style={{ viewTransitionName: `image-${articleWorkflow._id}` }}
+                      width={1000}
+                      height={1000}
+                    />
+                  </div>
                 ) : null}
               </div>
             )}
 
-            
 
-      
+
+
 
             <Card className="mb-6 sm:mb-8 bg-white dark:bg-aipratika-green/20 border-aipratika-green/10 dark:border-aipratika-cream/10 shadow-lg">
               <CardContent className="p-4 sm:p-6">
@@ -209,92 +209,92 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
 
             {/* Conditional rendering based on authentication */}
             {/* {isAuthenticated ? ( */}
-              <>
-                {articleWorkflow.steps.length > 0 && (
-                  <div className="space-y-4 sm:space-y-6">
-                    {articleWorkflow.steps.map((step) => (
-                      <Card key={step.order} className="bg-white dark:bg-aipratika-green/20 border-aipratika-green/10 dark:border-aipratika-cream/10 shadow-lg">
-                        <CardContent className="p-4 sm:p-6">
-                          <div className="flex items-start gap-3 sm:gap-4">
-                            <div className="w-8 h-8 bg-linear-to-r from-aipratika-orange to-aipratika-orange-light rounded-full flex items-center justify-center flex-shrink-0">
-                              <span className="text-white font-bold text-sm">{step.order}</span>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <h2 className="text-lg sm:text-xl font-semibold text-aipratika-green dark:text-aipratika-cream mb-3">
-                                {step.title}
-                              </h2>
-                              
-                              {step.imageUrl && (
-                                <div className="mb-4 aspect-video w-full">
-                                  <Image 
-                                    src={step.imageUrl || ""}
-                                    alt={step.title || ""}
-                                    width={1000}
-                                    height={1000}
-                                    className="w-full h-full rounded-lg shadow-sm border border-aipratika-green/10 dark:border-aipratika-cream/10 object-cover"
-                                  />
-                                </div>
-                              )}
-                              
-                              <div className="prose-aipratika text-sm sm:text-base">
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{step.content}</ReactMarkdown>
-                              </div>
-                            </div>
+            <>
+              {articleWorkflow.steps.length > 0 && (
+                <div className="space-y-4 sm:space-y-6">
+                  {articleWorkflow.steps.map((step) => (
+                    <Card key={step.order} className="bg-white dark:bg-aipratika-green/20 border-aipratika-green/10 dark:border-aipratika-cream/10 shadow-lg">
+                      <CardContent className="p-4 sm:p-6">
+                        <div className="flex items-start gap-3 sm:gap-4">
+                          <div className="w-8 h-8 bg-linear-to-r from-aipratika-orange to-aipratika-orange-light rounded-full flex items-center justify-center flex-shrink-0">
+                            <span className="text-white font-bold text-sm">{step.order}</span>
                           </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                )}
-
-                {/* FAQs - Only rendered for authenticated users */}
-                {articleWorkflow.faqs.length > 0 && (
-                  <Card className="mt-6 sm:mt-8 bg-white dark:bg-aipratika-green/20 border-aipratika-green/10 dark:border-aipratika-cream/10 shadow-lg overflow-hidden">
-                    <CardContent className="p-0">
-                      {/* FAQ Header */}
-                      <div className="p-6 sm:p-8 border-b border-aipratika-green/10 dark:border-aipratika-cream/10">
-                        <div className="flex items-center gap-3">
-                          <div>
-                            <h2 className="text-xl sm:text-2xl font-bold text-aipratika-green dark:text-aipratika-cream">
-                              FAQ
+                          <div className="flex-1 min-w-0">
+                            <h2 className="text-lg sm:text-xl font-semibold text-aipratika-green dark:text-aipratika-cream mb-3">
+                              {step.title}
                             </h2>
-                            <p className="text-sm text-aipratika-green/60 dark:text-aipratika-cream/60 mt-0.5">
-                              Tutto ciò che devi sapere su questo workflow
-                            </p>
+
+                            {step.imageUrl && (
+                              <div className="mb-4 aspect-video w-full">
+                                <Image
+                                  src={step.imageUrl || ""}
+                                  alt={step.title || ""}
+                                  width={1000}
+                                  height={1000}
+                                  className="w-full h-full rounded-lg shadow-sm border border-aipratika-green/10 dark:border-aipratika-cream/10 object-cover"
+                                />
+                              </div>
+                            )}
+
+                            <div className="prose-aipratika text-sm sm:text-base">
+                              <ReactMarkdown remarkPlugins={[remarkGfm]}>{step.content}</ReactMarkdown>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
 
-                      {/* FAQ Accordion */}
-                      <div className="p-4 sm:p-6">
-                        <Accordion type="single" collapsible className="w-full space-y-3">
-                          {articleWorkflow.faqs.map((faqItem, index) => (
-                            <AccordionItem 
-                              key={faqItem._id} 
-                              value={faqItem._id}
-                              className="border border-aipratika-green/10 dark:border-aipratika-cream/10 rounded-xl overflow-hidden bg-white/50 dark:bg-aipratika-green/10 hover:border-aipratika-orange/30 dark:hover:border-aipratika-orange-light/30 transition-all duration-300 group"
-                            >
-                              <AccordionTrigger className="px-5 py-4 text-left text-base sm:text-lg font-semibold text-aipratika-green dark:text-aipratika-cream hover:text-aipratika-orange dark:hover:text-aipratika-orange-light transition-colors duration-200 [&[data-state=open]]:text-aipratika-orange dark:[&[data-state=open]]:text-aipratika-orange-light hover:no-underline group-hover:bg-aipratika-orange/5 dark:group-hover:bg-aipratika-orange-light/5">
-                                <span className="flex items-start gap-3 pr-4">
-                                  <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-aipratika-orange/10 dark:bg-aipratika-orange-light/10 text-aipratika-orange dark:text-aipratika-orange-light text-xs font-bold flex-shrink-0 mt-0.5">
-                                    {index + 1}
-                                  </span>
-                                  <span className="flex-1">{faqItem.question}</span>
-                                </span>
-                              </AccordionTrigger>
-                              <AccordionContent className="px-5 pb-5">
-                                <div className="prose-aipratika text-sm sm:text-base">
-                                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{faqItem.answer || ''}</ReactMarkdown>
-                                </div>
-                              </AccordionContent>
-                            </AccordionItem>
-                          ))}
-                        </Accordion>
+              {/* FAQs - Only rendered for authenticated users */}
+              {articleWorkflow.faqs.length > 0 && (
+                <Card className="mt-6 sm:mt-8 bg-white dark:bg-aipratika-green/20 border-aipratika-green/10 dark:border-aipratika-cream/10 shadow-lg overflow-hidden">
+                  <CardContent className="p-0">
+                    {/* FAQ Header */}
+                    <div className="p-6 sm:p-8 border-b border-aipratika-green/10 dark:border-aipratika-cream/10">
+                      <div className="flex items-center gap-3">
+                        <div>
+                          <h2 className="text-xl sm:text-2xl font-bold text-aipratika-green dark:text-aipratika-cream">
+                            FAQ
+                          </h2>
+                          <p className="text-sm text-aipratika-green/60 dark:text-aipratika-cream/60 mt-0.5">
+                            Tutto ciò che devi sapere su questo workflow
+                          </p>
+                        </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                )}
-              </>
+                    </div>
+
+                    {/* FAQ Accordion */}
+                    <div className="p-4 sm:p-6">
+                      <Accordion type="single" collapsible className="w-full space-y-3">
+                        {articleWorkflow.faqs.map((faqItem, index) => (
+                          <AccordionItem
+                            key={faqItem._id}
+                            value={faqItem._id}
+                            className="border border-aipratika-green/10 dark:border-aipratika-cream/10 rounded-xl overflow-hidden bg-white/50 dark:bg-aipratika-green/10 hover:border-aipratika-orange/30 dark:hover:border-aipratika-orange-light/30 transition-all duration-300 group"
+                          >
+                            <AccordionTrigger className="px-5 py-4 text-left text-base sm:text-lg font-semibold text-aipratika-green dark:text-aipratika-cream hover:text-aipratika-orange dark:hover:text-aipratika-orange-light transition-colors duration-200 [&[data-state=open]]:text-aipratika-orange dark:[&[data-state=open]]:text-aipratika-orange-light hover:no-underline group-hover:bg-aipratika-orange/5 dark:group-hover:bg-aipratika-orange-light/5">
+                              <span className="flex items-start gap-3 pr-4">
+                                <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-aipratika-orange/10 dark:bg-aipratika-orange-light/10 text-aipratika-orange dark:text-aipratika-orange-light text-xs font-bold flex-shrink-0 mt-0.5">
+                                  {index + 1}
+                                </span>
+                                <span className="flex-1">{faqItem.question}</span>
+                              </span>
+                            </AccordionTrigger>
+                            <AccordionContent className="px-5 pb-5">
+                              <div className="prose-aipratika text-sm sm:text-base">
+                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{faqItem.answer || ''}</ReactMarkdown>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        ))}
+                      </Accordion>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </>
             {/* // ) : (
             //   <ArticlePaywall />
             // )} */}
@@ -310,12 +310,12 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                   {instructor && (
                     <div>
                       <h3 className="text-lg font-semibold text-aipratika-green dark:text-aipratika-cream mb-4">Descrizione</h3>
-                       {/* <span
+                      {/* <span
                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-medium border ${getDifficultyStyle(difficulty)}`}
                          >
                            {difficulty}
                          </span> */}
-                     <div className="flex items-center gap-3 mb-4"></div>
+                      <div className="flex items-center gap-3 mb-4"></div>
                       <div className="flex items-center gap-3 mb-6">
                         <img
                           src={instructor.avatar}
@@ -343,7 +343,7 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                       </div>
                     </div>
                   )}
-                  
+
                   {/* Personas Section */}
                   {/* {professions.length > 0 && (
                     <>
@@ -396,7 +396,7 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
           </div>
         </div>
       </div>
-      
+
     </div>
-    );
+  );
 }

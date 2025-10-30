@@ -7,35 +7,28 @@ const isAdminRoute = createRouteMatcher(['/admin(.*)'])
 
 export default clerkMiddleware(async (auth, req: NextRequest) => {
   const { userId, sessionClaims, redirectToSignIn } = await auth()
-  console.log('sessionClaims', sessionClaims)
 
   const userRole = (sessionClaims?.metadata)?.role 
 
-  console.log('*1')
 
   // For users visiting /onboarding, don't try to redirect
   if (userId && isOnboardingRoute(req) && (sessionClaims?.metadata)?.onboardingComplete ) {
-    console.log('*1.1')
     return NextResponse.redirect(new URL('/', req.url))
   }
 
-  console.log('*2')
 
   // If the user isn't signed in and the route is private, redirect to sign-in
   if (!userId && !isPublicRoute(req)) return redirectToSignIn({ returnBackUrl: req.url })
 
-  console.log('*3')
   // Admin route protection - use Clerk's has() function for role-based access
   if (userId && isAdminRoute(req)) {
     // Check if user has admin role using Clerk's has() function
 
     if (userRole !== 'admin') {
-      console.log('Admin access denied: User does not have admin role')
       // Show proper 404 page to hide admin routes existence
       return NextResponse.rewrite(new URL('/not-found', req.url))
     }
     
-    console.log('Admin access granted')
     const response = NextResponse.next()
     response.headers.set('x-pathname', req.nextUrl.pathname)
     return response
@@ -44,8 +37,6 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
   // Catch users who do not have `onboardingComplete: true` in their publicMetadata
   // Redirect them to the /onboarding route to complete onboarding
 
-  console.log('*4')
-  console.log('sessionClaims?.metadata', sessionClaims?.metadata)
   if (userId && !(sessionClaims?.metadata)?.onboardingComplete && !isAdminRoute(req)) {
     const onboardingUrl = new URL('/onboarding', req.url)
     return NextResponse.redirect(onboardingUrl)

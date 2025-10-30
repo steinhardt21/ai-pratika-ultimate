@@ -69,7 +69,6 @@ export function createResourceFormData(
   formData.append("title", (jsonData.title as string) || "")
   formData.append("description", (jsonData.description as string) || "")
   formData.append("url", (jsonData.url as string) || "")
-  formData.append("authorId", "temp-author-id") // TODO: Get actual user ID
   
   // Target categories
   formData.append("targetProfessions", JSON.stringify(targetProfessions))
@@ -100,7 +99,6 @@ export function createWorkflowFormData(
   formData.append("difficulty", (jsonData.difficulty as string) || "beginner")
   formData.append("timing", (jsonData.timing as string) || "")
   formData.append("pay", (jsonData.pay as string) || "free")
-  formData.append("authorId", "temp-author-id") // TODO: Get actual user ID
   
   // Optional cover image
   if (jsonData.cover_link) {

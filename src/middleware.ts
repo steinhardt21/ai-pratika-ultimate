@@ -1,28 +1,30 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 
-type ClerkMetadata = {
-  role?: string
-  onboardingComplete?: boolean
-}
-
 const isOnboardingRoute = createRouteMatcher(['/onboarding'])
 const isPublicRoute = createRouteMatcher(['/login', '/register', '/', '/workflows', '/manifesto', '/workflow/(.*)', '/resources', '/resources/(.*)', '/api/webhooks(.*)'])
 const isAdminRoute = createRouteMatcher(['/admin(.*)'])
 
 export default clerkMiddleware(async (auth, req: NextRequest) => {
   const { userId, sessionClaims, redirectToSignIn } = await auth()
+  console.log('sessionClaims', sessionClaims)
 
-  const userRole = (sessionClaims?.metadata as ClerkMetadata)?.role 
+  const userRole = (sessionClaims?.metadata)?.role 
+
+  console.log('*1')
 
   // For users visiting /onboarding, don't try to redirect
-  if (userId && isOnboardingRoute(req)) {
-    return NextResponse.next()
+  if (userId && isOnboardingRoute(req) && (sessionClaims?.metadata)?.onboardingComplete ) {
+    console.log('*1.1')
+    return NextResponse.redirect(new URL('/', req.url))
   }
+
+  console.log('*2')
 
   // If the user isn't signed in and the route is private, redirect to sign-in
   if (!userId && !isPublicRoute(req)) return redirectToSignIn({ returnBackUrl: req.url })
 
+  console.log('*3')
   // Admin route protection - use Clerk's has() function for role-based access
   if (userId && isAdminRoute(req)) {
     // Check if user has admin role using Clerk's has() function
@@ -41,7 +43,10 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
 
   // Catch users who do not have `onboardingComplete: true` in their publicMetadata
   // Redirect them to the /onboarding route to complete onboarding
-  if (userId && !(sessionClaims?.metadata as ClerkMetadata)?.onboardingComplete && !isAdminRoute(req)) {
+
+  console.log('*4')
+  console.log('sessionClaims?.metadata', sessionClaims?.metadata)
+  if (userId && !(sessionClaims?.metadata)?.onboardingComplete && !isAdminRoute(req)) {
     const onboardingUrl = new URL('/onboarding', req.url)
     return NextResponse.redirect(onboardingUrl)
   }

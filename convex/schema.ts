@@ -9,7 +9,7 @@ const difficultyEnum = v.optional(v.union(v.literal("beginner"), v.literal("inte
 const payEnum = v.optional(v.union(v.literal("free"), v.literal("freemium"), v.literal("paid")));
 
 export default defineSchema({
-  users: defineTable({
+  user: defineTable({
     clerkId: v.optional(v.string()),
     email: v.optional(v.string()),
     firstName: v.optional(v.string()),

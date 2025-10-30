@@ -20,11 +20,11 @@ export default async function AuthLayout({
   const navigationItems = await getNavigationItems()
 
   return (
-    <div className="flex min-h-screen flex-col bg-white">
-      <header className="container mx-auto z-40 bg-aipratika-cream">
+    <div className="flex min-h-screen flex-col bg-aipratika-cream">
+      <header className="container px-8 md:px-16 lg:px-24 max-w-full backdrop-blur-sm sticky mx-auto top-0 z-50 bg-aipratika-cream/20">
         <div className="flex h-20 items-center justify-between py-6 border-b border-aipratika-green/5">
-          <Link href="/" className="text-2xl font-bold text-aipratika-green cursor-pointer">AI Pratika</Link>
-          <MainNav items={navigationItems} />
+        <Link href="/" className="text-2xl font-bold text-aipratika-green cursor-pointer">AI Pratika</Link>
+        <MainNav items={navigationItems} />
           <nav>
             <SignedOut>
               <Link

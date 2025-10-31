@@ -82,15 +82,15 @@ export function MainNavButton({ item }: MainNavButtonProps) {
       className={cn(
         "relative flex items-center px-3 py-2 text-sm font-medium cursor-pointer rounded-lg transition-all duration-200 group",
         active 
-          ? "text-aipratika-orange" 
-          : "text-aipratika-green/70 hover:text-aipratika-green",
+          ? "text-aipratika-violet" 
+          : "text-aipratika-purple/70 hover:text-aipratika-purple",
         item.disabled && "cursor-not-allowed opacity-50"
       )}
     >
       {item.title}
       <span 
         className={cn(
-          "absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-aipratika-orange to-aipratika-orange-light rounded-full transition-all duration-300",
+          "absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-aipratika-violet to-aipratika-violet-light rounded-full transition-all duration-300",
           active ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0 group-hover:opacity-50 group-hover:scale-x-100"
         )}
       /> 

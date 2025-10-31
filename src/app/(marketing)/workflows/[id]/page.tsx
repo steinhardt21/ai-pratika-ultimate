@@ -74,11 +74,11 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
     //     <Image src={articleWorkflow.imageUrl || ""} style={{ viewTransitionName: `image-${id}`}} alt={articleWorkflow.title || ""} width={1000} height={1000} />
     // </div>
 
-    <div className="bg-aipratika-cream dark:bg-aipratika-green-dark bg-texture font-wotfard">
+    <div className="bg-aipratika-cream dark:bg-aipratika-purple-dark bg-texture font-wotfard">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {/* Back Button */}
         <div className="mb-4 sm:mb-6">
-          <Link href="/workflows" className="text-aipratika-green dark:text-aipratika-cream hover:text-aipratika-orange dark:hover:text-aipratika-orange-light transition-colors duration-200">
+          <Link href="/workflows" className="text-aipratika-purple dark:text-aipratika-cream hover:text-aipratika-violet dark:hover:text-aipratika-violet-light transition-colors duration-200">
             <ArrowLeft className="w-4 h-4" />
             Back
           </Link>
@@ -86,14 +86,14 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
 
         {/* Title and Brand */}
         <div className="mb-6 sm:mb-8">
-          <h1 style={{ viewTransitionName: `title-${articleWorkflow._id}` }} className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-aipratika-green dark:text-aipratika-cream mb-4 sm:mb-6 leading-tight">
+          <h1 style={{ viewTransitionName: `title-${articleWorkflow._id}` }} className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-aipratika-purple dark:text-aipratika-cream mb-4 sm:mb-6 leading-tight">
             {articleWorkflow.title}
           </h1>
         </div>
 
         {/* Mobile Instructor and Categories - Above content on mobile */}
         <div className="lg:hidden mb-6">
-          <Card className="bg-white dark:bg-aipratika-green/20 border-aipratika-green/10 dark:border-aipratika-cream/10 shadow-lg">
+          <Card className="bg-white dark:bg-aipratika-purple/20 border-aipratika-purple/10 dark:border-aipratika-cream/10 shadow-lg">
             <CardContent className="p-3 sm:p-4">
               {/* Instructor */}
               {instructor && (
@@ -110,8 +110,8 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                       className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
                     />
                     <div>
-                      <h4 className="font-semibold text-sm sm:text-base text-aipratika-green dark:text-aipratika-cream">{instructor.name}</h4>
-                      <p className="text-xs sm:text-sm text-aipratika-green/70 dark:text-aipratika-cream/70">{instructor.title}</p>
+                      <h4 className="font-semibold text-sm sm:text-base text-aipratika-purple dark:text-aipratika-cream">{instructor.name}</h4>
+                      <p className="text-xs sm:text-sm text-aipratika-purple/70 dark:text-aipratika-cream/70">{instructor.title}</p>
                     </div>
                   </div>
                 </>
@@ -140,7 +140,7 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                     {aiInstruments.map((tool) => (
                       <span
                         key={tool}
-                        className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-medium bg-gradient-to-r from-aipratika-orange/15 to-aipratika-orange/10 dark:from-aipratika-orange-light/20 dark:to-aipratika-orange-light/10 text-aipratika-orange dark:text-aipratika-orange-light border border-aipratika-orange/20 dark:border-aipratika-orange-light/30"
+                        className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-medium bg-gradient-to-r from-aipratika-violet/15 to-aipratika-violet/10 dark:from-aipratika-violet-light/20 dark:to-aipratika-violet-light/10 text-aipratika-violet dark:text-aipratika-violet-light border border-aipratika-violet/20 dark:border-aipratika-violet-light/30"
                       >
                         {tool}
                       </span>
@@ -153,12 +153,12 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
               <div className="space-y-2.5 sm:space-y-3">
                 {/* <SaveButton 
                   workflowId={workflow.id} // This is actually the article ID
-                  className="w-full h-10 sm:h-11 text-xs sm:text-sm font-medium border-2 border-aipratika-orange dark:border-aipratika-orange-light text-aipratika-orange dark:text-aipratika-orange-light hover:bg-aipratika-orange dark:hover:bg-aipratika-orange-light hover:text-white dark:hover:text-aipratika-green transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] rounded-lg" 
+                  className="w-full h-10 sm:h-11 text-xs sm:text-sm font-medium border-2 border-aipratika-violet dark:border-aipratika-violet-light text-aipratika-violet dark:text-aipratika-violet-light hover:bg-aipratika-violet dark:hover:bg-aipratika-violet-light hover:text-white dark:hover:text-aipratika-purple transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] rounded-lg" 
                 />
                 <ShareButton 
                   title={title}
                   description={description}
-                  className="w-full h-10 sm:h-11 text-xs sm:text-sm font-medium border-2 border-aipratika-green/30 dark:border-aipratika-cream/40 text-aipratika-green dark:text-aipratika-cream hover:bg-aipratika-green/10 dark:hover:bg-aipratika-cream/20 hover:border-aipratika-green/50 dark:hover:border-aipratika-cream/60 hover:text-aipratika-green dark:hover:text-aipratika-green-dark transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] rounded-lg"
+                  className="w-full h-10 sm:h-11 text-xs sm:text-sm font-medium border-2 border-aipratika-purple/30 dark:border-aipratika-cream/40 text-aipratika-purple dark:text-aipratika-cream hover:bg-aipratika-purple/10 dark:hover:bg-aipratika-cream/20 hover:border-aipratika-purple/50 dark:hover:border-aipratika-cream/60 hover:text-aipratika-purple dark:hover:text-aipratika-purple-dark transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] rounded-lg"
                 /> */}
               </div>
             </CardContent>
@@ -198,9 +198,9 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
 
 
 
-            <Card className="mb-6 sm:mb-8 bg-white dark:bg-aipratika-green/20 border-aipratika-green/10 dark:border-aipratika-cream/10 shadow-lg">
+            <Card className="mb-6 sm:mb-8 bg-white dark:bg-aipratika-purple/20 border-aipratika-purple/10 dark:border-aipratika-cream/10 shadow-lg">
               <CardContent className="p-4 sm:p-6">
-                <h2 className="text-lg sm:text-xl font-semibold text-aipratika-green dark:text-aipratika-cream mb-4">TL;DR</h2>
+                <h2 className="text-lg sm:text-xl font-semibold text-aipratika-purple dark:text-aipratika-cream mb-4">TL;DR</h2>
                 <div className="prose-aipratika text-sm sm:text-base">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>{articleWorkflow.description}</ReactMarkdown>
                 </div>
@@ -213,14 +213,14 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
               {articleWorkflow.steps.length > 0 && (
                 <div className="space-y-4 sm:space-y-6">
                   {articleWorkflow.steps.map((step) => (
-                    <Card key={step.order} className="bg-white dark:bg-aipratika-green/20 border-aipratika-green/10 dark:border-aipratika-cream/10 shadow-lg">
+                    <Card key={step.order} className="bg-white dark:bg-aipratika-purple/20 border-aipratika-purple/10 dark:border-aipratika-cream/10 shadow-lg">
                       <CardContent className="p-4 sm:p-6">
                         <div className="flex items-start gap-3 sm:gap-4">
-                          <div className="w-8 h-8 bg-linear-to-r from-aipratika-orange to-aipratika-orange-light rounded-full flex items-center justify-center flex-shrink-0">
+                          <div className="w-8 h-8 bg-linear-to-r from-aipratika-violet to-aipratika-violet-light rounded-full flex items-center justify-center flex-shrink-0">
                             <span className="text-white font-bold text-sm">{step.order}</span>
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h2 className="text-lg sm:text-xl font-semibold text-aipratika-green dark:text-aipratika-cream mb-3">
+                            <h2 className="text-lg sm:text-xl font-semibold text-aipratika-purple dark:text-aipratika-cream mb-3">
                               {step.title}
                             </h2>
 
@@ -231,7 +231,7 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                                   alt={step.title || ""}
                                   width={1000}
                                   height={1000}
-                                  className="w-full h-full rounded-lg shadow-sm border border-aipratika-green/10 dark:border-aipratika-cream/10 object-cover"
+                                  className="w-full h-full rounded-lg shadow-sm border border-aipratika-purple/10 dark:border-aipratika-cream/10 object-cover"
                                 />
                               </div>
                             )}
@@ -249,16 +249,16 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
 
               {/* FAQs - Only rendered for authenticated users */}
               {articleWorkflow.faqs.length > 0 && (
-                <Card className="mt-6 sm:mt-8 bg-white dark:bg-aipratika-green/20 border-aipratika-green/10 dark:border-aipratika-cream/10 shadow-lg overflow-hidden">
+                <Card className="mt-6 sm:mt-8 bg-white dark:bg-aipratika-purple/20 border-aipratika-purple/10 dark:border-aipratika-cream/10 shadow-lg overflow-hidden">
                   <CardContent className="p-0">
                     {/* FAQ Header */}
-                    <div className="p-6 sm:p-8 border-b border-aipratika-green/10 dark:border-aipratika-cream/10">
+                    <div className="p-6 sm:p-8 border-b border-aipratika-purple/10 dark:border-aipratika-cream/10">
                       <div className="flex items-center gap-3">
                         <div>
-                          <h2 className="text-xl sm:text-2xl font-bold text-aipratika-green dark:text-aipratika-cream">
+                          <h2 className="text-xl sm:text-2xl font-bold text-aipratika-purple dark:text-aipratika-cream">
                             FAQ
                           </h2>
-                          <p className="text-sm text-aipratika-green/60 dark:text-aipratika-cream/60 mt-0.5">
+                          <p className="text-sm text-aipratika-purple/60 dark:text-aipratika-cream/60 mt-0.5">
                             Tutto ciò che devi sapere su questo workflow
                           </p>
                         </div>
@@ -272,11 +272,11 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                           <AccordionItem
                             key={faqItem._id}
                             value={faqItem._id}
-                            className="border border-aipratika-green/10 dark:border-aipratika-cream/10 rounded-xl overflow-hidden bg-white/50 dark:bg-aipratika-green/10 hover:border-aipratika-orange/30 dark:hover:border-aipratika-orange-light/30 transition-all duration-300 group"
+                            className="border border-aipratika-purple/10 dark:border-aipratika-cream/10 rounded-xl overflow-hidden bg-white/50 dark:bg-aipratika-purple/10 hover:border-aipratika-violet/30 dark:hover:border-aipratika-violet-light/30 transition-all duration-300 group"
                           >
-                            <AccordionTrigger className="px-5 py-4 text-left text-base sm:text-lg font-semibold text-aipratika-green dark:text-aipratika-cream hover:text-aipratika-orange dark:hover:text-aipratika-orange-light transition-colors duration-200 [&[data-state=open]]:text-aipratika-orange dark:[&[data-state=open]]:text-aipratika-orange-light hover:no-underline group-hover:bg-aipratika-orange/5 dark:group-hover:bg-aipratika-orange-light/5">
+                            <AccordionTrigger className="px-5 py-4 text-left text-base sm:text-lg font-semibold text-aipratika-purple dark:text-aipratika-cream hover:text-aipratika-violet dark:hover:text-aipratika-violet-light transition-colors duration-200 [&[data-state=open]]:text-aipratika-violet dark:[&[data-state=open]]:text-aipratika-violet-light hover:no-underline group-hover:bg-aipratika-violet/5 dark:group-hover:bg-aipratika-violet-light/5">
                               <span className="flex items-start gap-3 pr-4">
-                                <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-aipratika-orange/10 dark:bg-aipratika-orange-light/10 text-aipratika-orange dark:text-aipratika-orange-light text-xs font-bold flex-shrink-0 mt-0.5">
+                                <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-aipratika-violet/10 dark:bg-aipratika-violet-light/10 text-aipratika-violet dark:text-aipratika-violet-light text-xs font-bold flex-shrink-0 mt-0.5">
                                   {index + 1}
                                 </span>
                                 <span className="flex-1">{faqItem.question}</span>
@@ -304,12 +304,12 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
           {/* Desktop Sidebar - Hidden on mobile */}
           <div className="hidden lg:block w-80 relative">
             <div className="sticky top-4">
-              <Card className="bg-white py-0 dark:bg-aipratika-green/20 border-aipratika-green/10 dark:border-aipratika-cream/10 shadow-lg">
+              <Card className="bg-white py-0 dark:bg-aipratika-purple/20 border-aipratika-purple/10 dark:border-aipratika-cream/10 shadow-lg">
                 <CardContent className="p-6">
                   {/* Instructor */}
                   {instructor && (
                     <div>
-                      <h3 className="text-lg font-semibold text-aipratika-green dark:text-aipratika-cream mb-4">Descrizione</h3>
+                      <h3 className="text-lg font-semibold text-aipratika-purple dark:text-aipratika-cream mb-4">Descrizione</h3>
                       {/* <span
                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-medium border ${getDifficultyStyle(difficulty)}`}
                          >
@@ -323,8 +323,8 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                           className="w-12 h-12 rounded-full object-cover"
                         />
                         <div>
-                          <h4 className="font-semibold text-aipratika-green dark:text-aipratika-cream">{instructor.name}</h4>
-                          <p className="text-sm text-aipratika-green/70 dark:text-aipratika-cream/70">{instructor.title}</p>
+                          <h4 className="font-semibold text-aipratika-purple dark:text-aipratika-cream">{instructor.name}</h4>
+                          <p className="text-sm text-aipratika-purple/70 dark:text-aipratika-cream/70">{instructor.title}</p>
                         </div>
                       </div>
                     </div>
@@ -333,7 +333,7 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                   {/* Publication Date */}
                   {articleWorkflow.updatedAt && (
                     <div className="mb-6">
-                      <div className="flex items-center gap-2 text-sm text-aipratika-green/70 dark:text-aipratika-cream/70">
+                      <div className="flex items-center gap-2 text-sm text-aipratika-purple/70 dark:text-aipratika-cream/70">
                         <Clock className="w-4 h-4" />
                         <span>Pubblicato il {new Date(articleWorkflow.updatedAt!).toLocaleDateString('it-IT', {
                           day: 'numeric',
@@ -351,7 +351,7 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                         {professions.map((profession) => (
                           <span
                             key={profession}
-                            className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-aipratika-orange/15 to-aipratika-orange/10 dark:from-aipratika-orange-light/20 dark:to-aipratika-orange-light/10 text-aipratika-orange dark:text-aipratika-orange-light border border-aipratika-orange/20 dark:border-aipratika-orange-light/30 hover:border-aipratika-orange/40 dark:hover:border-aipratika-orange-light/50 transition-all duration-200 hover:scale-105"
+                            className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-aipratika-violet/15 to-aipratika-violet/10 dark:from-aipratika-violet-light/20 dark:to-aipratika-violet-light/10 text-aipratika-violet dark:text-aipratika-violet-light border border-aipratika-violet/20 dark:border-aipratika-violet-light/30 hover:border-aipratika-violet/40 dark:hover:border-aipratika-violet-light/50 transition-all duration-200 hover:scale-105"
                             
                           >
                             {profession}
@@ -382,12 +382,12 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                   {/* <div className="space-y-3">
                     <SaveButton 
                       workflowId={workflow.id} // This is actually the article ID
-                      className="w-full cursor-pointer border-2 border-aipratika-orange dark:border-aipratika-orange-light text-aipratika-orange dark:text-aipratika-orange-light hover:bg-aipratika-orange dark:hover:bg-aipratika-orange-light hover:text-white dark:hover:text-aipratika-green transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] rounded-lg" 
+                      className="w-full cursor-pointer border-2 border-aipratika-violet dark:border-aipratika-violet-light text-aipratika-violet dark:text-aipratika-violet-light hover:bg-aipratika-violet dark:hover:bg-aipratika-violet-light hover:text-white dark:hover:text-aipratika-purple transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] rounded-lg" 
                     />
                     <ShareButton 
                       title={title}
                       description={description}
-                      className="w-full border-2 border-aipratika-green/30 dark:border-aipratika-cream/40 text-aipratika-green dark:text-aipratika-cream hover:bg-aipratika-green/10 dark:hover:bg-aipratika-cream/20 hover:border-aipratika-green/50 dark:hover:border-aipratika-cream/60 hover:text-aipratika-green dark:hover:text-aipratika-green-dark transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] rounded-lg"
+                      className="w-full border-2 border-aipratika-purple/30 dark:border-aipratika-cream/40 text-aipratika-purple dark:text-aipratika-cream hover:bg-aipratika-purple/10 dark:hover:bg-aipratika-cream/20 hover:border-aipratika-purple/50 dark:hover:border-aipratika-cream/60 hover:text-aipratika-purple dark:hover:text-aipratika-purple-dark transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] rounded-lg"
                     />
                   </div> */}
                 </CardContent>

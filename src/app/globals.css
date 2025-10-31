@@ -3,6 +3,29 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-bricolage: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-wotfard: var(--font-wotfard), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --font-family-sans: var(--font-sans);
+  --font-family-bricolage: var(--font-bricolage);
+  --font-family-wotfard: var(--font-wotfard);
+
+  --color-aipratika-cream: #fffdfc;
+  --color-aipratika-purple: #3a3266;
+  --color-aipratika-purple-dark: #2a2350;
+  --color-aipratika-violet: #7466d7;
+  --color-aipratika-violet-dark: #5a4fc0;
+  --color-aipratika-violet-light: #8f83e8;
+  --color-aipratika-blue: #29d8fe;
+  --color-aipratika-blue-light: #5ae2fe;
+  --color-aipratika-blue-dark: #0ab9df;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

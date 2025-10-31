@@ -21,7 +21,7 @@ export function MainNav({ items, children }: MainNavProps) {
       ) : null}
       {/* Mobile menu button - uncomment when needed
       <button
-        className="flex items-center space-x-2 md:hidden text-aipratika-green hover:text-aipratika-orange transition-colors"
+        className="flex items-center space-x-2 md:hidden text-aipratika-purple hover:text-aipratika-violet transition-colors"
       >
         <span className="font-bold">Menu</span>
       </button>

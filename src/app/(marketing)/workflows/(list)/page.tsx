@@ -25,10 +25,10 @@ export default async function WorkflowsPage() {
 
     console.log('preloadedWorkflows', preloadedWorkflows);
     return (
-        <section className="px-6 sm:px-8 md:px-12 lg:px-16 py-6 sm:py-8 md:py-10 bg-aipratika-cream dark:bg-aipratika-green-dark bg-texture">
+        <section className="px-6 sm:px-8 md:px-12 lg:px-16 py-6 sm:py-8 md:py-10 bg-aipratika-cream dark:bg-aipratika-purple-dark bg-texture">
             <div className="container mx-auto max-w-6xl">
                 <div className="mb-6">
-                    <h2 className="text-xl font-semibold text-aipratika-green dark:text-aipratika-cream">
+                    <h2 className="text-xl font-semibold text-aipratika-purple dark:text-aipratika-cream">
                         {preloadedWorkflows.length} workflow{preloadedWorkflows.length !== 1 ? 's' : ''}
                     </h2>
                 </div>

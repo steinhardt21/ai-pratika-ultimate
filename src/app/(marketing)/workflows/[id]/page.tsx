@@ -31,6 +31,9 @@ export async function generateMetadata(props: WorkflowPageProps): Promise<Metada
       title,
       images: [article.imageUrl || ""],
     },
+    other: {
+      'preload-image': article.imageUrl || "",
+    }
   };
 }
 
@@ -65,8 +68,23 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
   const instructor = {
     name: `${articleWorkflow.workflow?.authorFirstName} ${articleWorkflow.workflow?.authorLastName}`,
     title: 'Founder',
-    avatar: articleWorkflow.workflow?.authorFirstName === 'Silvio' ? '/founders/Silvio_sticker.webp' : '/founders/Alex_sticker.webp'
+    avatar: articleWorkflow.workflow?.authorFirstName === 'Silvio' ? '/founders/Silvio_sticker.webp' : '/founders/Silvio_sticker.webp'
   };
+
+  const keyStr =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+  const triplet = (e1: number, e2: number, e3: number) =>
+    keyStr.charAt(e1 >> 2) +
+    keyStr.charAt(((e1 & 3) << 4) | (e2 >> 4)) +
+    keyStr.charAt(((e2 & 15) << 2) | (e3 >> 6)) +
+    keyStr.charAt(e3 & 63);
+  
+  const rgbDataURL = (r: number, g: number, b: number) =>
+    `data:image/gif;base64,R0lGODlhAQABAPAA${
+      triplet(0, r, g) + triplet(b, 255, 255)
+    }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
+
 
   return (
     // <div>
@@ -105,10 +123,13 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                   </span>
                   <div className="flex items-center gap-3 mb-4">
                     <Image
-                      fill
+                    blurDataURL={rgbDataURL(237, 181, 6)}
+                      placeholder="blur"
+                      width={48}
+                      height={48}
                       src={instructor.avatar}
                       alt={instructor.name}
-                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
+                      className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full object-cover flex-shrink-0"
                     />
                     <div>
                       <h4 className="font-semibold text-sm sm:text-base text-aipratika-purple dark:text-aipratika-cream">{instructor.name}</h4>
@@ -319,10 +340,12 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                       <div className="flex items-center gap-3 mb-4"></div>
                       <div className="flex items-center gap-3 mb-6">
                         <Image
-                          fill
+                          priority
+                          width={100}
+                          height={100}
                           src={instructor.avatar}
                           alt={instructor.name}
-                          className="w-12 h-12 rounded-full object-cover"
+                          className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full object-cover"
                         />
                         <div>
                           <h4 className="font-semibold text-aipratika-purple dark:text-aipratika-cream">{instructor.name}</h4>

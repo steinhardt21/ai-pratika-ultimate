@@ -10,21 +10,17 @@ import { Badge } from "../ui/badge"
 import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip"
 import { Doc } from "@/../convex/_generated/dataModel";
 
-// Author sticker mapping function
-const getAuthorSticker = (authorName: string): string | null => {
-  const name = authorName.toLowerCase();
-  if (name.includes('silvio')) {
-    return '/founders/Silvio_sticker.png';
+const getAuthorSticker = (authorId: string): string => {
+  if (authorId === 'kh76knm1qqzvsg6gxhg27f0fe17temge') {
+    return '/founders/Alex_sticker.webp';
   }
-  if (name.includes('alex')) {
-    return '/founders/Alex_sticker.png';
-  }
-  return null;
+  return '/founders/Silvio_sticker.webp';
 };
 
 export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<"article"> & { 
   targetProfessionNames: string[];
   targetAiInstrumentNames: string[];
+  authorId: string;
   content: Doc<"workflow"> 
 } }) {
 
@@ -39,6 +35,8 @@ export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<
       </span>
     ),
   };
+
+  const stickerUrl = getAuthorSticker(articleWorkflow.authorId);
 
   
   return (
@@ -69,18 +67,16 @@ export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<
           <div className="absolute inset-0 bg-linear-to-t from-aipratika-violet/80 via-aipratika-violet/40 to-aipratika-violet-light/10 z-10"></div>
 
           {/* Author Sticker */}
-          {/* {(() => {
-            const stickerUrl = getAuthorSticker(articleWorkflow.content.authorId);
-            return stickerUrl ? (
-              <div className="absolute bottom-0 right-1 z-30">
+        
+              <div className="absolute bottom-[-3%] right-1 z-30">
                 <Image
+                  width={100}
+                  height={100}
                   src={stickerUrl}
-                  alt={`${articleWorkflow.content.authorId} sticker`}
-                  className="w-33 h-33 object-contain drop-shadow-lg"
+                  alt={`sticker`}
+                  className="object-contain drop-shadow-lg"
                 />
               </div>
-            ) : null;
-          })()} */}
 
           {/* Remove Button - Always show BookmarkCheck since all workflows here are saved */}
           {/* {isSignedIn && (

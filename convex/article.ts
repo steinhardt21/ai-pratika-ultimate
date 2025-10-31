@@ -21,15 +21,22 @@ export const getArticlesByType = query({
       article.targetAiInstruments.forEach(id => allAiInstrumentIds.add(id));
     });
 
-    // Batch fetch all professions and AI instruments
-    const [professions, aiInstruments] = await Promise.all([
+    // Collect workflow IDs for workflow articles to get authorId
+    const workflowIds = args.type === "workflow" 
+      ? articles.map(article => article.contentId).filter(id => id) as Id<"workflow">[]
+      : [];
+
+    // Batch fetch all professions, AI instruments, and workflows
+    const [professions, aiInstruments, workflows] = await Promise.all([
       Promise.all(Array.from(allProfessionIds).map(id => ctx.db.get(id))),
-      Promise.all(Array.from(allAiInstrumentIds).map(id => ctx.db.get(id)))
+      Promise.all(Array.from(allAiInstrumentIds).map(id => ctx.db.get(id))),
+      args.type === "workflow" ? Promise.all(workflowIds.map(id => ctx.db.get(id))) : []
     ]);
 
     // Create lookup maps for O(1) access
     const professionMap = new Map<Id<"profession">, string>();
     const aiInstrumentMap = new Map<Id<"aiInstrument">, string>();
+    const workflowMap = new Map<Id<"workflow">, string>();
     
     professions.forEach((profession, index) => {
       if (profession?.name) {
@@ -43,6 +50,15 @@ export const getArticlesByType = query({
       }
     });
 
+    // Create workflow lookup map for authorId
+    if (args.type === "workflow") {
+      workflows.forEach((workflow, index) => {
+        if (workflow?.authorId) {
+          workflowMap.set(workflowIds[index], workflow.authorId);
+        }
+      });
+    }
+
     // Map articles with names using lookup tables
     return articles.map(article => ({
       _id: article._id,
@@ -50,7 +66,8 @@ export const getArticlesByType = query({
       title: article.title,
       type: article.type,
       status: article.status,
-      timing: article.timing,
+      targetProfessions: article.targetProfessions,
+      targetAiInstruments: article.targetAiInstruments,
       targetProfessionNames: article.targetProfessions
         .map(id => professionMap.get(id))
         .filter((name): name is string => name !== undefined),
@@ -64,6 +81,11 @@ export const getArticlesByType = query({
       description: article.description,
       difficulty: article.difficulty,
       pay: article.pay,
+      timing: article.timing,
+      // Get authorId from workflow for workflow articles, otherwise null
+      authorId: args.type === "workflow" && article.contentId 
+        ? workflowMap.get(article.contentId as Id<"workflow">) || null
+        : null,
     }));
   },
 });

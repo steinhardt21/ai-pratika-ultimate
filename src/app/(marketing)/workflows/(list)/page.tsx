@@ -20,10 +20,10 @@ export default async function WorkflowsPage() {
     const preloadedWorkflows = await getWorkflows() as (Doc<"article"> & { 
         targetProfessionNames: string[];
         targetAiInstrumentNames: string[];
+        authorId: string;
         content: Doc<"workflow"> 
     })[];
 
-    console.log('preloadedWorkflows', preloadedWorkflows);
     return (
         <section className="px-6 sm:px-8 md:px-12 lg:px-16 py-6 sm:py-8 md:py-10 bg-aipratika-cream dark:bg-aipratika-purple-dark bg-texture">
             <div className="container mx-auto max-w-6xl">

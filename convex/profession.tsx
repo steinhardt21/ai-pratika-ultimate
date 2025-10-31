@@ -28,3 +28,12 @@ export const getProfessions = query({
     return await ctx.db.query("profession").collect();
   },
 });
+
+export const deleteProfession = mutation({
+  args: {
+    id: v.id("profession"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.delete(args.id);
+  },
+});

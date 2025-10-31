@@ -16,11 +16,12 @@ import {
 } from "@tanstack/react-table"
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { taxonomyColumns } from "./taxonomy-table-components/taxonomy-columns"
+import { createTaxonomyColumns } from "./taxonomy-table-components/taxonomy-columns"
 import { TablePagination } from "../content-table/data-table/table-pagination"
 import { ColumnsDropdown } from "../content-table/data-table/columns-dropdown"
 import { api } from "../../../../convex/_generated/api"
-import { Preloaded, usePreloadedQuery } from "convex/react";
+import { Preloaded, usePreloadedQuery } from "convex/react"
+import { deleteProfessionAction } from "../../../actions/taxonomy-actions"
 
 interface TaxonomyTableClientProps {
   preloadedProfessions: Preloaded<typeof api.profession.getProfessions>
@@ -39,9 +40,19 @@ export function TaxonomyTableClient({ preloadedProfessions, toolbarLeft }: Taxon
     pageSize: 10,
   })
 
+  const handleDelete = async (id: string) => {
+    const formData = new FormData()
+    formData.append('id', id)
+    await deleteProfessionAction(formData)
+  }
+
+  const columns = React.useMemo(() => createTaxonomyColumns({ 
+    onDelete: handleDelete 
+  }), [])
+
   const table = useReactTable({
     data,
-    columns: taxonomyColumns,
+    columns,
     state: {
       sorting,
       columnVisibility,
@@ -99,7 +110,7 @@ export function TaxonomyTableClient({ preloadedProfessions, toolbarLeft }: Taxon
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={taxonomyColumns.length} className="h-24 text-center">
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>

@@ -3,7 +3,8 @@
 import { fetchMutation } from "convex/nextjs";
 import { api } from "../../convex/_generated/api";
 import { auth } from "@clerk/nextjs/server";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
+import { Id } from "../../convex/_generated/dataModel";
     
 export async function createProfessionAction(formData: FormData): Promise<void> {
   const { userId } = await auth();
@@ -17,5 +18,16 @@ export async function createProfessionAction(formData: FormData): Promise<void> 
     clerkId: userId,
   });
 
+  revalidateTag("professions");
+}
+
+export async function deleteProfessionAction(formData: FormData): Promise<void> {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const id = formData.get("id") as string;
+  await fetchMutation(api.profession.deleteProfession, {
+    id: id as Id<"profession">,
+  });
   revalidateTag("professions");
 }

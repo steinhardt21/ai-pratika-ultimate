@@ -1,6 +1,7 @@
-import { MoreVertical } from 'lucide-react'
+import { MoreVertical, Trash2 } from 'lucide-react'
 import type { ColumnDef } from "@tanstack/react-table"
 import { z } from "zod"
+import { toast } from "sonner"
 
 // import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -16,7 +17,6 @@ import {
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 // import { EditableCell } from "./editable-cell"
 import { StatusBadge } from "../../content-table/data-table/status-badge"
-import { TableCellViewer } from "../../content-table/data-table/table-cell-viewer"
 
 export const schema = z.object({
   _id: z.string(),
@@ -28,7 +28,11 @@ export const schema = z.object({
   updatedAt: z.number().optional()
 })
 
-export const taxonomyColumns: ColumnDef<z.infer<typeof schema>>[] = [
+interface TaxonomyColumnsOptions {
+  onDelete?: (id: string, name?: string) => Promise<void>
+}
+
+export const createTaxonomyColumns = ({ onDelete }: TaxonomyColumnsOptions = {}): ColumnDef<z.infer<typeof schema>>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -158,22 +162,54 @@ export const taxonomyColumns: ColumnDef<z.infer<typeof schema>>[] = [
 //   },
   {
     id: "actions",
-    cell: () => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="data-[state=open]:bg-muted text-muted-foreground flex size-8" size="icon">
-            <MoreVertical />
-            <span className="sr-only">Open menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-32">
-          <DropdownMenuItem>Edit</DropdownMenuItem>
-          <DropdownMenuItem>Make a copy</DropdownMenuItem>
-          <DropdownMenuItem>Favorite</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
+    cell: ({ row }) => {
+      const handleDelete = async () => {
+        if (!onDelete) return
+        
+        const id = row.original._id
+        const name = row.original.name
+        
+        try {
+          await onDelete(id, name)
+          toast.success("Elemento eliminato", {
+            description: name ? `${name} è stato eliminato con successo` : "L'elemento è stato eliminato con successo"
+          })
+        } catch {
+          toast.error("Errore durante l'eliminazione", {
+            description: "Si è verificato un errore durante l'eliminazione dell'elemento"
+          })
+        }
+      }
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="data-[state=open]:bg-muted text-muted-foreground flex size-8" size="icon">
+              <MoreVertical />
+              <span className="sr-only">Open menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-40">
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem>Make a copy</DropdownMenuItem>
+            <DropdownMenuItem>Favorite</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            {onDelete && (
+              <DropdownMenuItem 
+                variant="destructive" 
+                onClick={handleDelete}
+                className="flex items-center gap-2"
+              >
+                <Trash2 className="size-4" />
+                Delete
+              </DropdownMenuItem>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    },
   },
 ]
+
+// Backward compatibility - default columns without delete functionality
+export const taxonomyColumns = createTaxonomyColumns()

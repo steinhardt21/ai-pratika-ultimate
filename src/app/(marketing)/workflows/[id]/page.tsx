@@ -77,12 +77,12 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
     <div className="bg-aipratika-cream dark:bg-aipratika-purple-dark bg-texture font-wotfard">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {/* Back Button */}
-        <div className="mb-4 sm:mb-6">
+        {/* <div className="mb-4 sm:mb-6">
           <Link href="/workflows" className="text-aipratika-purple dark:text-aipratika-cream hover:text-aipratika-violet dark:hover:text-aipratika-violet-light transition-colors duration-200">
             <ArrowLeft className="w-4 h-4" />
             Back
           </Link>
-        </div>
+        </div> */}
 
         {/* Title and Brand */}
         <div className="mb-6 sm:mb-8">
@@ -90,7 +90,7 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
             {articleWorkflow.title}
           </h1>
         </div>
-
+        
         {/* Mobile Instructor and Categories - Above content on mobile */}
         <div className="lg:hidden mb-6">
           <Card className="bg-white dark:bg-aipratika-purple/20 border-aipratika-purple/10 dark:border-aipratika-cream/10 shadow-lg">
@@ -170,6 +170,8 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Main Content */}
           <div className="flex-1 lg:w-[calc(100%-21rem)]">
+          
+
             {/* Video/Image Section */}
             {(articleWorkflow.videoUrl || articleWorkflow.imageUrl) && (
               <div className="mb-6 sm:mb-8">
@@ -187,8 +189,8 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                       alt={articleWorkflow.title || ""}
                       className="w-full h-full object-cover rounded-lg"
                       style={{ viewTransitionName: `image-${articleWorkflow._id}` }}
-                      width={1000}
-                      height={1000}
+                      width={100}
+                      height={100}
                     />
                   </div>
                 ) : null}
@@ -319,10 +321,12 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                       <div className="flex items-center gap-3 mb-4"></div>
                       <div className="flex items-center gap-3 mb-6">
                         <Image
-                          fill
+                          width={100}
+                          height={100}
                           src={instructor.avatar}
                           alt={instructor.name}
                           className="w-12 h-12 rounded-full object-cover"
+                          style={{ viewTransitionName: `instructor-${articleWorkflow.workflow?.authorId}` }}
                         />
                         <div>
                           <h4 className="font-semibold text-aipratika-purple dark:text-aipratika-cream">{instructor.name}</h4>

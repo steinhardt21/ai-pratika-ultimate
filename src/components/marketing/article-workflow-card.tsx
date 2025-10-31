@@ -74,7 +74,6 @@ export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<
                   src={stickerUrl}
                   alt={`sticker`}
                   className="object-contain drop-shadow-lg"
-                  style={{ viewTransitionName: `instructor-${articleWorkflow.authorId}` }}
                 />
               </div>
 

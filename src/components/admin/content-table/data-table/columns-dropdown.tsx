@@ -7,14 +7,12 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { schema } from "./columns"
-import { z } from "zod"
 
-interface ColumnsDropdownProps {
-  columns: Column<z.infer<typeof schema>, unknown>[]
+interface ColumnsDropdownProps<TData> {
+  columns: Column<TData, unknown>[]
 }
 
-export function ColumnsDropdown({ columns }: ColumnsDropdownProps) {
+export function ColumnsDropdown<TData>({ columns }: ColumnsDropdownProps<TData>) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

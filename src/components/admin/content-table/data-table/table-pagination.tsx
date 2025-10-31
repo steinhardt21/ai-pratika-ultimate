@@ -6,16 +6,12 @@ import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-r
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { schema } from "./columns"
-import { z } from "zod"
-// import type { schema } from "./columns"
 
-interface TablePaginationProps {
-  // table: Table<z.infer<typeof schema>>
-  table: Table<z.infer<typeof schema>>
+interface TablePaginationProps<TData> {
+  table: Table<TData>
 }
 
-export function TablePagination({ table }: TablePaginationProps) {
+export function TablePagination<TData>({ table }: TablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between px-4">
       <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">

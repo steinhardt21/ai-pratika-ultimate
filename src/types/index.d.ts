@@ -43,5 +43,5 @@ export type MarketingConfig = {
 }
 
 export type AdminConfig = {
-    adminNav: MainNavItem[] 
+    adminNav: SidebarNavItem[] 
 }

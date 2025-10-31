@@ -11,7 +11,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         "--header-height": "calc(var(--spacing) * 12)",
       } as React.CSSProperties
     }>
-      <NavigationSidebar items={adminConfig.sidebarNav} />
+      <NavigationSidebar items={adminConfig.adminNav} />
       <SidebarInset>
         {children}
       </SidebarInset>

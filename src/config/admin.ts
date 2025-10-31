@@ -1,8 +1,7 @@
 import type { AdminConfig } from "@/types"
 
 export const adminConfig: AdminConfig = {
-  mainNav: [],
-  sidebarNav: [
+  adminNav: [
     {
       title: "Dashboard",
       href: "/admin",
@@ -17,7 +16,6 @@ export const adminConfig: AdminConfig = {
       title: "Taxonomy",
       href: "/admin/taxonomy",
       icon: "page",
-      disabled: true,
     },
     {
       title: "Utenti",

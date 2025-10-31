@@ -56,6 +56,7 @@ export default defineSchema({
     title: v.optional(v.string()),
     type: articleTypeEnum,
     status: articleStatusEnum,
+    timing: v.optional(v.string()),
     targetProfessions: v.array(v.id("profession")),
     targetAiInstruments: v.array(v.id("aiInstrument")),
     contentId: v.optional(v.string()), // ID that can reference workflow, news, or resource
@@ -72,9 +73,7 @@ export default defineSchema({
     .index("by_type", ["type"]),
 
   workflow: defineTable({
-    authorId: v.string(),  
-    timing: v.optional(v.string()),
-    
+    authorId: v.string(),      
     updatedAt: v.optional(v.number()), 
   })
     .index("by_author_id", ["authorId"]),

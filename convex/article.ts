@@ -12,14 +12,51 @@ export const getArticlesByType = query({
       .withIndex("by_type", (q) => q.eq("type", args.type))
       .collect();
 
-    return articles.map((article) => ({
+    // Collect all unique profession and AI instrument IDs
+    const allProfessionIds = new Set<Id<"profession">>();
+    const allAiInstrumentIds = new Set<Id<"aiInstrument">>();
+    
+    articles.forEach(article => {
+      article.targetProfessions.forEach(id => allProfessionIds.add(id));
+      article.targetAiInstruments.forEach(id => allAiInstrumentIds.add(id));
+    });
+
+    // Batch fetch all professions and AI instruments
+    const [professions, aiInstruments] = await Promise.all([
+      Promise.all(Array.from(allProfessionIds).map(id => ctx.db.get(id))),
+      Promise.all(Array.from(allAiInstrumentIds).map(id => ctx.db.get(id)))
+    ]);
+
+    // Create lookup maps for O(1) access
+    const professionMap = new Map<Id<"profession">, string>();
+    const aiInstrumentMap = new Map<Id<"aiInstrument">, string>();
+    
+    professions.forEach((profession, index) => {
+      if (profession?.name) {
+        professionMap.set(Array.from(allProfessionIds)[index], profession.name);
+      }
+    });
+    
+    aiInstruments.forEach((aiInstrument, index) => {
+      if (aiInstrument?.name) {
+        aiInstrumentMap.set(Array.from(allAiInstrumentIds)[index], aiInstrument.name);
+      }
+    });
+
+    // Map articles with names using lookup tables
+    return articles.map(article => ({
       _id: article._id,
       _creationTime: article._creationTime,
       title: article.title,
       type: article.type,
       status: article.status,
-      targetProfessions: article.targetProfessions,
-      targetAiInstruments: article.targetAiInstruments,
+      timing: article.timing,
+      targetProfessionNames: article.targetProfessions
+        .map(id => professionMap.get(id))
+        .filter((name): name is string => name !== undefined),
+      targetAiInstrumentNames: article.targetAiInstruments
+        .map(id => aiInstrumentMap.get(id))
+        .filter((name): name is string => name !== undefined),
       contentId: article.contentId,
       updatedAt: article.updatedAt,
       imageUrl: article.imageUrl,
@@ -96,7 +133,7 @@ export const getWorkflowArticleById = query({
         authorId: workflow.authorId,
         authorFirstName: author?.firstName,
         authorLastName: author?.lastName,
-        timing: workflow.timing,
+        timing: article.timing,
         updatedAt: workflow.updatedAt,
       } : null,
       steps: sortedSteps.map(step => ({
@@ -202,7 +239,6 @@ export const createWorkflowArticle = mutation({
 
     // First, create the workflow
     const workflowId = await ctx.db.insert("workflow", {
-      timing: args.timing,
       authorId: user._id,  
       updatedAt: Date.now(),
     });
@@ -210,7 +246,7 @@ export const createWorkflowArticle = mutation({
     // Then, create the article of type workflow that references the workflow
     const articleId = await ctx.db.insert("article", {
       description: args.description,
-      difficulty: args.difficulty as "beginner" | "intermediate" | "advanced",
+      difficulty: args.difficulty,
       pay: args.pay,
       title: args.title,
       type: "workflow",
@@ -220,7 +256,7 @@ export const createWorkflowArticle = mutation({
       contentId: workflowId,
       updatedAt: Date.now(),
       imageUrl: args.imageUrl,
-
+      timing: args.timing, // Keep timing in article as per current schema
     });
 
     // Create workflow steps

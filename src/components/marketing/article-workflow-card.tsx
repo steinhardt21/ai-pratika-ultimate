@@ -22,9 +22,11 @@ const getAuthorSticker = (authorName: string): string | null => {
   return null;
 };
 
-export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<"article"> & { content: Doc<"workflow"> } }) {
-
-  console.log('articleWorkflow', articleWorkflow);
+export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<"article"> & { 
+  targetProfessionNames: string[];
+  targetAiInstrumentNames: string[];
+  content: Doc<"workflow"> 
+} }) {
 
   const markdownComponents = {
     a: ({ children, href, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
@@ -137,7 +139,7 @@ export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<
         <div className="mt-auto space-y-4">
           {/* Categories */}
           <div className="flex flex-wrap gap-2">
-            {/* {workflow.categories.slice(0, 3).map((category) => {
+            {articleWorkflow.targetProfessionNames.slice(0, 3).map((category) => {
               // const categoryType = getCategoryType(category);
               const categoryType = "role";
 
@@ -155,7 +157,7 @@ export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<
                   {category}
                 </Badge>
               );
-            })} */}
+            })}
             {/* {workflow.categories.length > 3 && (
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -199,16 +201,16 @@ export function ArticleWorkflowCard({ articleWorkflow }: { articleWorkflow: Doc<
             <div className="flex items-center gap-4 text-xs text-aipratika-green/60 dark:text-aipratika-cream/60">
               <div className="flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5 shrink-0" />
-                <span className="font-medium"></span>
+                <span className="font-medium">{articleWorkflow.timing}</span>
               </div>
-              {/* {articleWorkflow.content.difficulty && (
+              {articleWorkflow.difficulty && (
                 <div className="flex items-center gap-1.5">
-                  <div className={`w-2 h-2 rounded-full shrink-0 ${articleWorkflow.content.difficulty === 'beginner' ? 'bg-green-500' :
-                      articleWorkflow.content.difficulty === 'intermediate' ? 'bg-yellow-500' : 'bg-red-500'
+                  <div className={`w-2 h-2 rounded-full shrink-0 ${articleWorkflow.difficulty === 'beginner' ? 'bg-green-500' :
+                      articleWorkflow.difficulty === 'intermediate' ? 'bg-yellow-500' : 'bg-red-500'
                     }`}></div>
-                  <span className="font-medium">{articleWorkflow.content.difficulty}</span>
+                  <span className="font-medium">{articleWorkflow.difficulty}</span>
                 </div>
-              )} */}
+              )}
             </div>
           </div>
         </div>

@@ -17,8 +17,12 @@ const getWorkflows = unstable_cache(
 );
 
 export default async function WorkflowsPage() {
-    // const preloadedWorkflows = await getWorkflows() as (Doc<"article"> & { content: Doc<"workflow"> })[];
-    const preloadedWorkflows = await fetchQuery(api.article.getArticlesByType, { type: "workflow" }) as (Doc<"article"> & { content: Doc<"workflow"> })[];
+    const preloadedWorkflows = await getWorkflows() as (Doc<"article"> & { 
+        targetProfessionNames: string[];
+        targetAiInstrumentNames: string[];
+        content: Doc<"workflow"> 
+    })[];
+
     console.log('preloadedWorkflows', preloadedWorkflows);
     return (
         <section className="px-6 sm:px-8 md:px-12 lg:px-16 py-6 sm:py-8 md:py-10 bg-aipratika-cream dark:bg-aipratika-green-dark bg-texture">

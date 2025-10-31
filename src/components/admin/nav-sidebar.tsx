@@ -37,13 +37,15 @@ export function NavigationSidebar({ items }: NavigationSidebarProps) {
     <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
             <SidebarMenuButton
               asChild
             >
-                <span className="text-base font-semibold">APA</span>
+              <SidebarMenuItem>
+                <Icons.laptop className="h-4 w-4" />
+                <span className="text-base font-semibold">Admin Area</span>
+              </SidebarMenuItem>
+                {/* <span className="text-base font-semibold">Admin Area</span> */}
             </SidebarMenuButton>
-          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>

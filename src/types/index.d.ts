@@ -8,7 +8,7 @@ export type NavItem = {
 }
 
 export type MainNavItem = NavItem & {
-  icon?: React.ComponentType<any>
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>
 }
 
 export type SidebarNavItem = {

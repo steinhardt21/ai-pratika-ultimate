@@ -2,12 +2,11 @@
 import { Link } from "next-view-transitions";
 
 import Image from "next/image"
-import { Star, Clock, BookmarkCheck } from 'lucide-react'
+import { Clock } from 'lucide-react'
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 
 import { Badge } from "../ui/badge"
-import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip"
 import { Doc } from "@/../convex/_generated/dataModel";
 
 const getAuthorSticker = (authorId: string): string => {

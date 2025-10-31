@@ -2,7 +2,7 @@ import Link from "next/link"
 import { SignedIn, SignedOut } from "@clerk/nextjs"
 
 import { cn } from "@/lib/utils"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { MainNav } from "@/components/marketing/main-nav"
 import { SiteFooter } from "@/components/marketing/site-footer"
 import { BorderBeam } from "@/components/ui/border-beam"

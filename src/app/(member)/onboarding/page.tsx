@@ -1,6 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 // import { InteractiveAnimatedGridPattern } from "~/components/interactive-animated-grid-pattern"
-import { cn } from "@/lib/utils"
 import { Brain } from 'lucide-react'
 // import { ProfessionSelector } from './_components/profession-selector'
 

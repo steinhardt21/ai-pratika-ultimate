@@ -104,7 +104,8 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                     {articleWorkflow.difficulty!}
                   </span>
                   <div className="flex items-center gap-3 mb-4">
-                    <img
+                    <Image
+                      fill
                       src={instructor.avatar}
                       alt={instructor.name}
                       className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
@@ -317,7 +318,8 @@ export default async function WorkflowPage({ params }: WorkflowPageProps) {
                          </span> */}
                       <div className="flex items-center gap-3 mb-4"></div>
                       <div className="flex items-center gap-3 mb-6">
-                        <img
+                        <Image
+                          fill
                           src={instructor.avatar}
                           alt={instructor.name}
                           className="w-12 h-12 rounded-full object-cover"

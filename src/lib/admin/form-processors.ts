@@ -1,10 +1,6 @@
 import type { ContentType } from "@/app/(admin)/admin/content/page"
 
-// Constants for category mapping
-const PROFESSIONS = [
-  "Marketer", "Manager", "Developer", "Designer", "Creativo", 
-  "Consulente", "Freelancer", "Venditore", "Product Manager", "Data Analyst"
-]
+
 
 const AI_TOOLS = [
   "ChatGPT", "GPT-4", "Claude", "Midjourney", "DALL-E", 

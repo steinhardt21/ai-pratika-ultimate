@@ -43,7 +43,7 @@ export async function createWorkflowArticle(formData: FormData): Promise<void> {
   const pay = formData.get("pay") as "free" | "freemium" | "paid";
   const imageUrl = formData.get("imageUrl") as string | null;
   const targetProfessions = JSON.parse(formData.get("targetProfessions") as string || "[]");
-  const targetAiInstruments = JSON.parse(formData.get("targetAiInstruments") as string || "[]");
+  // const targetAiInstruments = JSON.parse(formData.get("targetAiInstruments") as string || "[]");
   
   // Parse steps (assuming they're passed as JSON string)
   const stepsData = formData.get("steps") as string;
@@ -62,7 +62,7 @@ export async function createWorkflowArticle(formData: FormData): Promise<void> {
     clerkId: userId,
     imageUrl: imageUrl || undefined,
     targetProfessions,
-    targetAiInstruments,
+    targetAiInstruments: [],
     steps,
     faqs,
   });

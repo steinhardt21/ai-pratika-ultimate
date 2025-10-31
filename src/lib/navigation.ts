@@ -32,7 +32,7 @@ export async function getNavigationItems(): Promise<MainNavItem[]> {
       console.log('Adding Admin link to navigation')
       navItems.push({
         title: "Admin",
-        href: "/admin/dashboard",
+        href: "/admin",
       })
     }
     

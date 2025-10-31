@@ -8,7 +8,7 @@ interface StatusBadgeProps {
 export function StatusBadge({ status }: StatusBadgeProps) {
 
   return (
-    <Badge variant="outline" className="text-muted-foreground px-1.5">
+    <Badge variant="outline" className="text-black px-1.5">
       {getStatusIcon(status)} 
       {status}
     </Badge>
@@ -18,7 +18,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
 function getStatusIcon(status: string) {
   switch (status) {
     case "active":
-      return <CircleCheck className="fill-green-500 dark:fill-green-400" />
+      return <Circle className="fill-green-700 dark:fill-green-400 animate-pulse" />
     case "draft":
       return <Circle className="fill-yellow-500 dark:fill-yellow-400" />
     case "archived":

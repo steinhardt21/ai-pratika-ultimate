@@ -14,13 +14,22 @@ const AI_TOOLS = [
 
 /**
  * Maps selected categories to target professions and AI instruments
- * TODO: Replace with actual database ID mapping
+ * Categories now contain profession IDs and tool names
  */
 function mapCategoriesToTargets(categories: string[]) {
-  // For now, return empty arrays since we need database IDs, not string names
-  // TODO: Query the database to get actual profession and aiInstrument IDs
   const targetProfessions: string[] = []
   const targetAiInstruments: string[] = []
+  
+  // Separate profession IDs from tool names
+  categories.forEach(category => {
+    // Check if it's a tool name (from AI_TOOLS)
+    if (AI_TOOLS.includes(category)) {
+      targetAiInstruments.push(category)
+    } else {
+      // Assume it's a profession ID
+      targetProfessions.push(category)
+    }
+  })
   
   return { targetProfessions, targetAiInstruments }
 }

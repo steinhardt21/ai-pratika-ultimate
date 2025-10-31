@@ -9,13 +9,15 @@ import { StepThree } from "./step-three"
 import { type ContentType } from "@/app/(admin)/admin/content/page"
 import { toast } from "sonner"
 import { processContentForm } from "@/lib/admin/form-processors"
-
+import { api } from "../../../../convex/_generated/api"
+import { useQuery } from "convex/react"
 interface ContentFormProps {
   createResourceAction?: (formData: FormData) => Promise<void>,
   createWorkflowAction?: (formData: FormData) => Promise<void>,
 }
 
 export function ContentForm({ createResourceAction, createWorkflowAction }: ContentFormProps) {
+  const professions = useQuery(api.profession.getProfessions)
   const [open, setOpen] = useState(false)
   const [step, setStep] = useState(1)
   const [contentType, setContentType] = useState<ContentType | null>(null)
@@ -113,7 +115,7 @@ export function ContentForm({ createResourceAction, createWorkflowAction }: Cont
               onValidationChange={handleValidationChange}
             />
           )}
-          {step === 2 && <StepTwo categories={categories} setCategories={setCategories} extractedPersonas={extractedData.personas} extractedTools={extractedData.tools} />}
+          {step === 2 && <StepTwo categories={categories} setCategories={setCategories} extractedPersonas={extractedData.personas} extractedTools={extractedData.tools} professions={professions} />}
           {step === 3 && <StepThree status={status} setStatus={setStatus} />}
         </div>
 

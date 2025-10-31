@@ -4,14 +4,19 @@ import { useEffect } from "react"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Doc } from "../../../../convex/_generated/dataModel"
+
 interface StepTwoProps {
   categories: string[]
   setCategories: (categories: string[]) => void
   extractedPersonas?: string[]
   extractedTools?: string[]
+  professions?: Doc<"profession">[]
 }
 
-const AVAILABLE_PERSONAS = [
+// Fallback personas if Convex data is not available
+const FALLBACK_PERSONAS = [
   "Marketer",
   "Manager",
   "Developer",
@@ -37,15 +42,24 @@ const AVAILABLE_TOOLS = [
   "OpenAI API",
 ]
 
-export function StepTwo({ categories, setCategories, extractedPersonas = [], extractedTools = [] }: StepTwoProps) {
+export function StepTwo({ categories, setCategories, extractedPersonas = [], extractedTools = [], professions }: StepTwoProps) {
+  // Check if professions are still loading
+  const isLoadingProfessions = professions === undefined
+  
+  // Use Convex professions if available, otherwise fallback to hardcoded list
+  const availablePersonas = professions && professions.length > 0 
+    ? professions
+        .filter(p => p.status === "active" && p.name) // Only active professions with names
+        .sort((a, b) => (a.name || "").localeCompare(b.name || "")) // Sort alphabetically
+    : FALLBACK_PERSONAS.map(name => ({ _id: name, name })) // Convert fallback to objects
   useEffect(() => {
     const autoSelected: string[] = []
 
     // Match extracted personas with available personas
     extractedPersonas.forEach((persona) => {
-      const match = AVAILABLE_PERSONAS.find((p) => p.toLowerCase() === persona.toLowerCase())
-      if (match && !autoSelected.includes(match)) {
-        autoSelected.push(match)
+      const match = availablePersonas.find((p) => p.name?.toLowerCase() === persona.toLowerCase())
+      if (match && !autoSelected.includes(match._id)) {
+        autoSelected.push(match._id)
       }
     })
 
@@ -60,13 +74,13 @@ export function StepTwo({ categories, setCategories, extractedPersonas = [], ext
     if (autoSelected.length > 0) {
       setCategories(autoSelected)
     }
-  }, [extractedPersonas, extractedTools])
+  }, [extractedPersonas, extractedTools, setCategories])
 
-  const toggleCategory = (category: string) => {
-    if (categories.includes(category)) {
-      setCategories(categories.filter((c) => c !== category))
+  const toggleCategory = (categoryId: string) => {
+    if (categories.includes(categoryId)) {
+      setCategories(categories.filter((c) => c !== categoryId))
     } else {
-      setCategories([...categories, category])
+      setCategories([...categories, categoryId])
     }
   }
 
@@ -87,18 +101,28 @@ export function StepTwo({ categories, setCategories, extractedPersonas = [], ext
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-        {AVAILABLE_PERSONAS.map((persona) => (
-          <div key={persona} className="flex items-center gap-3 py-1">
-            <Checkbox
-              id={`persona-${persona}`}
-              checked={categories.includes(persona)}
-              onCheckedChange={() => toggleCategory(persona)}
-            />
-            <Label htmlFor={`persona-${persona}`} className="font-normal cursor-pointer">
-              {persona}
-            </Label>
-          </div>
-        ))}
+        {isLoadingProfessions ? (
+          // Show loading skeletons while professions are loading
+          Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="flex items-center gap-3 py-1">
+              <Skeleton className="h-4 w-4 rounded" />
+              <Skeleton className="h-4 w-24" />
+            </div>
+          ))
+        ) : (
+          availablePersonas.map((persona) => (
+            <div key={persona._id} className="flex items-center gap-3 py-1">
+              <Checkbox
+                id={`persona-${persona._id}`}
+                checked={categories.includes(persona._id)}
+                onCheckedChange={() => toggleCategory(persona._id)}
+              />
+              <Label htmlFor={`persona-${persona._id}`} className="font-normal cursor-pointer">
+                {persona.name}
+              </Label>
+            </div>
+          ))
+        )}
       </div>
 
       <div className="space-y-2 pt-4 border-t">

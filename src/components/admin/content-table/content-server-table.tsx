@@ -34,8 +34,7 @@ export async function DataTableServer() {
         getWorkflows(),
         getResources()
     ]); 
-
-
+    
     const toolbarLeft = (
         <>
             <Label htmlFor="view-selector" className="sr-only">

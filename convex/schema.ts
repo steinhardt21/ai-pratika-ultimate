@@ -30,6 +30,8 @@ export default defineSchema({
   profession: defineTable({
     name: v.optional(v.string()),
     description: v.optional(v.string()),
+    status: v.union(v.literal("active"), v.literal("archived")),
+    createdBy: v.id("user"),
     updatedAt: v.optional(v.number()), // Timestamp in milliseconds (Date.now())
   })
     .index("by_name", ["name"]),

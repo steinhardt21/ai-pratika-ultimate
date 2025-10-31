@@ -9,6 +9,7 @@
  */
 
 import type * as article from "../article.js";
+import type * as profession from "../profession.js";
 import type * as user from "../user.js";
 
 import type {
@@ -27,6 +28,7 @@ import type {
  */
 declare const fullApi: ApiFromModules<{
   article: typeof article;
+  profession: typeof profession;
   user: typeof user;
 }>;
 declare const fullApiWithMounts: typeof fullApi;

@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useEffect, useState, useTransition } from "react"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -13,6 +14,18 @@ interface MainNavButtonProps {
 export function MainNavButton({ item }: MainNavButtonProps) {
   const router = useRouter()
   const pathname = usePathname()
+  const [mounted, setMounted] = useState(false)
+  const [isPending, startTransition] = useTransition()
+  const [optimisticPath, setOptimisticPath] = useState(pathname)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Sync optimistic path when actual pathname changes (after navigation completes)
+  if (pathname !== optimisticPath && !isPending) {
+    setOptimisticPath(pathname)
+  }
 
   // Helper function to check if a nav item is active
   const isActive = (href: string) => {
@@ -20,11 +33,13 @@ export function MainNavButton({ item }: MainNavButtonProps) {
     if (href.includes('#')) {
       return false
     }
+    // Use optimisticPath for immediate feedback
+    const currentPath = mounted ? optimisticPath : pathname
     // Exact match for home
-    if (href === '/' && pathname === '/') return true
+    if (href === '/' && currentPath === '/') return true
     // For other routes, check if pathname starts with href
     if (href !== '/') {
-      return pathname === href || pathname.startsWith(href + '/')
+      return currentPath === href || currentPath.startsWith(href + '/')
     }
     return false
   }
@@ -60,7 +75,14 @@ export function MainNavButton({ item }: MainNavButtonProps) {
       
       // If we're navigating to a different page with an anchor
       if (path && typeof window !== 'undefined' && path !== window.location.pathname) {
-        router.push(path)
+        // Optimistic update for the path part
+        setOptimisticPath(path)
+        
+        // Wrap navigation in transition
+        startTransition(() => {
+          router.push(path)
+        })
+        
         // Wait for navigation to complete, then scroll with retry logic
         setTimeout(() => {
           scrollToElement(hash)
@@ -69,6 +91,20 @@ export function MainNavButton({ item }: MainNavButtonProps) {
         // Same page, just scroll to element
         scrollToElement(hash)
       }
+    } else {
+      // Regular navigation without anchor
+      // Don't navigate if already on the page
+      if (href === pathname) return
+      
+      e.preventDefault()
+      
+      // Immediately update the UI (optimistic update)
+      setOptimisticPath(href)
+      
+      // Wrap navigation in transition to track loading state
+      startTransition(() => {
+        router.push(href)
+      })
     }
   }
 

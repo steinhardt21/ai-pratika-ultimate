@@ -19,9 +19,8 @@ export const adminConfig: AdminConfig = {
     },
     {
       title: "Utenti",
-      href: "/admin/utenti",
+      href: "/admin/users",
       icon: "user",
-      disabled: true,
     },
   ],
 }
